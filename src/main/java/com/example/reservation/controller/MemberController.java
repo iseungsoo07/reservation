@@ -3,6 +3,7 @@ package com.example.reservation.controller;
 import com.example.reservation.domain.entity.Member;
 import com.example.reservation.domain.model.SignInRequest;
 import com.example.reservation.domain.model.SignUpRequest;
+import com.example.reservation.domain.model.SignUpResponse;
 import com.example.reservation.security.TokenProvider;
 import com.example.reservation.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,18 +26,19 @@ public class MemberController {
     private final TokenProvider tokenProvider;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signUp(@RequestBody SignUpRequest signUpRequest) {
-        Member member = memberService.signUp(signUpRequest);
-        return ResponseEntity.ok(member);
+    public ResponseEntity<?> signUp(@RequestBody @Valid SignUpRequest signUpRequest) {
+        SignUpResponse signUpResponse = memberService.signUp(signUpRequest);
+        return ResponseEntity.ok(signUpResponse);
     }
 
     @PostMapping("/signin")
     public ResponseEntity<?> signIn(@RequestBody SignInRequest signInRequest) {
         Member member = memberService.authenticate(signInRequest);
 
-        String token = tokenProvider.generateToken(member.getUserId(), member.getRoles());
+        String token = tokenProvider.generateToken(member.getUserId(), member.getMemberType());
         log.info("{} 사용자 로그인 성공", signInRequest.getUserId());
 
         return ResponseEntity.ok(token);
     }
+
 }

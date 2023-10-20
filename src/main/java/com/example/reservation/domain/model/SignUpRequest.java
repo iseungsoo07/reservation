@@ -1,9 +1,11 @@
 package com.example.reservation.domain.model;
 
 import com.example.reservation.domain.entity.Member;
+import com.example.reservation.type.MemberType;
 import lombok.*;
 
-import java.util.List;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -11,11 +13,21 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class SignUpRequest {
+
+    @NotBlank
     private String userId;
+
+    @NotBlank
+    @Size(min = 4)
     private String password;
+
+    @NotBlank
     private String userName;
+
+    @NotBlank
     private String phone;
-    private List<String> roles;
+
+    private MemberType memberType;
 
     public Member toEntity() {
         return Member.builder()
@@ -23,7 +35,7 @@ public class SignUpRequest {
                 .password(this.password)
                 .userName(this.userName)
                 .phone(this.phone)
-                .roles(this.roles)
+                .memberType(this.memberType)
                 .build();
     }
 }

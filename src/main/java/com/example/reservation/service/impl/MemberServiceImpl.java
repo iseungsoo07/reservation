@@ -3,6 +3,7 @@ package com.example.reservation.service.impl;
 import com.example.reservation.domain.entity.Member;
 import com.example.reservation.domain.model.SignInRequest;
 import com.example.reservation.domain.model.SignUpRequest;
+import com.example.reservation.domain.model.SignUpResponse;
 import com.example.reservation.exception.ErrorCode;
 import com.example.reservation.exception.ReservationException;
 import com.example.reservation.repository.MemberRepository;
@@ -31,7 +32,7 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
     }
 
     @Override
-    public Member signUp(SignUpRequest signUpRequest) {
+    public SignUpResponse signUp(SignUpRequest signUpRequest) {
         boolean exists = memberRepository.existsByUserId(signUpRequest.getUserId());
 
         if (exists) {
@@ -40,7 +41,15 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 
         signUpRequest.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
 
-        return memberRepository.save(signUpRequest.toEntity());
+        memberRepository.save(signUpRequest.toEntity());
+
+        return SignUpResponse.builder()
+                .userId(signUpRequest.getUserId())
+                .password(signUpRequest.getPassword())
+                .userName(signUpRequest.getUserName())
+                .phone(signUpRequest.getPhone())
+                .memberType(signUpRequest.getMemberType())
+                .build();
     }
 
     @Override

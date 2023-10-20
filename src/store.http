@@ -1,0 +1,14 @@
+### regist store
+POST http://localhost:8080/store/regist
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcHBsZSIsIm1lbWJlclR5cGUiOiJST0xFX1BBUlRORVIiLCJpYXQiOjE2OTc3OTExOTgsImV4cCI6MTY5Nzc5NDc5OH0.0VVPWXhlOa3rBmOKushjhGBKw0hFCpDvnC9Kz9hSQJNsDcTDKz0xNltBu7xj08qfTi-ocED2WKAwb9TYPFzT9Q
+
+{
+    "owner": "김사과",
+    "name": "동대문 엽기떡볶이 성복점",
+    "address": "경기도 용인시 수지구 성복동",
+    "description": "둘이 먹다 하나 죽어도 모를 동대문 엽기떡볶이 성복점",
+    "contact": "031-123-1234",
+    "open": "09:00:00",
+    "close": "22:00:00"
+}

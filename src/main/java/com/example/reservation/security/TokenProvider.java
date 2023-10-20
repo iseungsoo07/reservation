@@ -1,6 +1,7 @@
 package com.example.reservation.security;
 
 import com.example.reservation.service.MemberService;
+import com.example.reservation.type.MemberType;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -14,13 +15,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class TokenProvider {
-
-    private static final String KEY_ROLES = "roles";
+    private static final String MEMBER_TYPE = "memberType";
     private static final long TOKEN_EXPIRE_TIME = 1000 * 60 * 60;
 
     @Value("${spring.jwt.secret")
@@ -28,9 +27,9 @@ public class TokenProvider {
 
     private final MemberService memberService;
 
-    public String generateToken(String username, List<String> roles) {
+    public String generateToken(String username, MemberType memberType) {
         Claims claims = Jwts.claims().setSubject(username);
-        claims.put(KEY_ROLES, roles);
+        claims.put(MEMBER_TYPE, memberType);
 
         Date now = new Date();
         Date expiredDate = new Date(now.getTime() + TOKEN_EXPIRE_TIME);

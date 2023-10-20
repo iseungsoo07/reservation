@@ -3,13 +3,11 @@ POST http://localhost:8080/user/signup
 Content-Type: application/json
 
 {
-    "userId": "apple",
-    "password": "1111",
-    "userName": "김사과",
-    "phone": "010-1111-1111",
-    "roles": [
-        "ROLE_PARTNER"
-    ]
+    "userId": "banana",
+    "password": "2222",
+    "userName": "반하나",
+    "phone": "010-2222-2222",
+    "memberType": "ROLE_USER"
 }
 
 ### signin
