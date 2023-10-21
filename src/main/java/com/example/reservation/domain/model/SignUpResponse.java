@@ -11,7 +11,7 @@ import lombok.*;
 public class SignUpResponse {
     private String userId;
     private String password;
-    private String userName;
+    private String name;
     private String phone;
 
     private MemberType memberType;

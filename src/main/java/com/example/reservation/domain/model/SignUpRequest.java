@@ -22,7 +22,7 @@ public class SignUpRequest {
     private String password;
 
     @NotBlank
-    private String userName;
+    private String name;
 
     @NotBlank
     private String phone;
@@ -33,7 +33,7 @@ public class SignUpRequest {
         return Member.builder()
                 .userId(this.userId)
                 .password(this.password)
-                .userName(this.userName)
+                .name(this.name)
                 .phone(this.phone)
                 .memberType(this.memberType)
                 .build();

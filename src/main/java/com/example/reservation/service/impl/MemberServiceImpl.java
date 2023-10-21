@@ -46,7 +46,7 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
         return SignUpResponse.builder()
                 .userId(signUpRequest.getUserId())
                 .password(signUpRequest.getPassword())
-                .userName(signUpRequest.getUserName())
+                .name(signUpRequest.getName())
                 .phone(signUpRequest.getPhone())
                 .memberType(signUpRequest.getMemberType())
                 .build();

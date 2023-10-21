@@ -30,7 +30,7 @@ public class Member implements UserDetails {
 
     private String userId;
     private String password;
-    private String userName;
+    private String name;
     private String phone;
 
     @Enumerated(EnumType.STRING)
