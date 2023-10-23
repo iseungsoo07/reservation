@@ -2,7 +2,6 @@ package com.example.reservation.service.impl;
 
 import com.example.reservation.domain.entity.Store;
 import com.example.reservation.domain.model.StoreResponse;
-import com.example.reservation.exception.ErrorCode;
 import com.example.reservation.exception.ReservationException;
 import com.example.reservation.repository.StoreRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -15,8 +14,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalTime;
 import java.util.Optional;
 
-import static com.example.reservation.exception.ErrorCode.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static com.example.reservation.exception.ErrorCode.ALREADY_EXISTS_STORE;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;

@@ -2,6 +2,7 @@ package com.example.reservation.domain.model;
 
 import com.example.reservation.domain.entity.Store;
 import lombok.*;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalTime;
 
@@ -29,5 +30,18 @@ public class StoreResponse {
                 .open(store.getOpen())
                 .close(store.getClose())
                 .build();
+    }
+
+    public static Page<StoreResponse> toDtoList(Page<Store> page) {
+        return page.map(store -> StoreResponse.builder()
+                .owner(store.getOwner())
+                .name(store.getName())
+                .address(store.getAddress())
+                .contact(store.getContact())
+                .description(store.getDescription())
+                .open(store.getOpen())
+                .close(store.getClose())
+                .build());
+
     }
 }

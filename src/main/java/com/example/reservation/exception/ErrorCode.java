@@ -14,9 +14,14 @@ public enum ErrorCode {
     NOT_FOUND_MEMBER("사용자 정보가 없습니다."),
     PASSWORD_UNMATCH("비밀번호가 일치하지 않습니다."),
     ALREADY_USING_ID("이미 사용중인 아이디 입니다."),
+    NEED_LOGIN("로그인 후 이용하실 수 있습니다."),
 
     // 매장 관련
-    ALREADY_EXISTS_STORE("이미 등록되어 있는 매장입니다.");
+    NOT_FOUND_STORE("매장 정보가 없습니다."),
+    ALREADY_EXISTS_STORE("이미 등록되어 있는 매장입니다."),
+
+    // 예약 관련
+    ALREADY_RESERVED_TIME("이미 예약된 시간입니다.");
 
     private final String description;
 }

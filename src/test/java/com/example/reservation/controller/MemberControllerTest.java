@@ -63,7 +63,7 @@ class MemberControllerTest {
                                 )))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.userId").value("apple"))
-                .andExpect(jsonPath("$.userName").value("김사과"))
+                .andExpect(jsonPath("$.name").value("김사과"))
                 .andExpect(jsonPath("$.phone").value("010-1111-1111"))
                 .andExpect(jsonPath("$.memberType").value("ROLE_PARTNER"))
                 .andDo(print());

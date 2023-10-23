@@ -188,7 +188,7 @@ class MemberServiceImplTest {
                  .build();
 
          given(memberRepository.findByUserId(anyString()))
-                 .willReturn(Optional.of(member));
+                 .willReturn(Optional.empty());
                  
          // when
          ReservationException exception

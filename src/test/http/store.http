@@ -12,3 +12,21 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcHBsZSIsIm1lbWJlclR5cGUiO
     "open": "09:00:00",
     "close": "22:00:00"
 }
+
+### search store
+GET http://localhost:8080/store/search?name=동
+
+### get stores
+GET http://localhost:8080/store/list?orderBy=rating
+
+### get store details
+GET http://localhost:8080/store/details/2
+
+### reserve store
+POST http://localhost:8080/store/reservation/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdm9jYWRvIiwibWVtYmVyVHlwZSI6IlJPTEVfVVNFUiIsImlhdCI6MTY5ODA1NzExMSwiZXhwIjoxNjk4MDYwNzExfQ.GBv6EKLNTrcAvon8c-fR1iVgOFVkYu2U2AOA7djjFfrAE-eb_qyniS7Vo31XLuoGHk5Jap8Uldwcd0B-WRb_5Q
+
+{
+    "reservationDate": "2023-10-23T11:00:00"
+}
