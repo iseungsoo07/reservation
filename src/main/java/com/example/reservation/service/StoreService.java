@@ -16,6 +16,8 @@ public interface StoreService {
 
     Page<StoreResponse> getStoresOrderByRating(Pageable pageable);
 
+    Page<StoreResponse> getStoresOrderByReviewCount(Pageable pageable);
+
     List<StoreResponse> searchStore(String prefix);
 
     StoreResponse getStoreDetails(Long id);

@@ -9,7 +9,6 @@ import com.example.reservation.utils.LoginCheckUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,8 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.example.reservation.exception.ErrorCode.ACCESS_DENIED;
-import static com.example.reservation.exception.ErrorCode.NEED_LOGIN;
+import static com.example.reservation.exception.ErrorCode.*;
 
 
 @RestController
@@ -53,7 +51,11 @@ public class StoreController {
             return ResponseEntity.ok(storeService.getStoresOrderByRating(pageable));
         }
 
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if ("review".equals(orderBy)) {
+            return ResponseEntity.ok(storeService.getStoresOrderByReviewCount(pageable));
+        }
+
+        throw new ReservationException(INVALID_REQUEST);
     }
 
     @GetMapping("/search")

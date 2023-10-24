@@ -61,6 +61,13 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
+    public Page<StoreResponse> getStoresOrderByReviewCount(Pageable pageable) {
+        Page<Store> orderByReviewCount = storeRepository.findAllByOrderByReviewCountDesc(pageable);
+
+        return StoreResponse.toDtoList(orderByReviewCount);
+    }
+
+    @Override
     public List<StoreResponse> searchStore(String name) {
         List<Store> storeList = storeRepository.findByNameStartsWith(name);
 

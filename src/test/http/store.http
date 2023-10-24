@@ -17,7 +17,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcHBsZSIsIm1lbWJlclR5cGUiO
 GET http://localhost:8080/store/search?name=동
 
 ### get stores
-GET http://localhost:8080/store/list?orderBy=rating
+GET http://localhost:8080/store/list?orderBy=review
 
 ### get store details
 GET http://localhost:8080/store/details/2
