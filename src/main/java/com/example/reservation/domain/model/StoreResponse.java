@@ -12,7 +12,6 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Builder
 public class StoreResponse {
-    private String owner;
     private String name;
     private String address;
     private String description;
@@ -22,7 +21,6 @@ public class StoreResponse {
 
     public static StoreResponse of(Store store) {
         return StoreResponse.builder()
-                .owner(store.getOwner())
                 .name(store.getName())
                 .address(store.getAddress())
                 .description(store.getDescription())
@@ -34,7 +32,6 @@ public class StoreResponse {
 
     public static Page<StoreResponse> toDtoList(Page<Store> page) {
         return page.map(store -> StoreResponse.builder()
-                .owner(store.getOwner())
                 .name(store.getName())
                 .address(store.getAddress())
                 .contact(store.getContact())

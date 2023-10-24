@@ -1,0 +1,16 @@
+### reserve store
+POST http://localhost:8080/reservation/5
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdm9jYWRvIiwibWVtYmVyVHlwZSI6IlJPTEVfVVNFUiIsImlhdCI6MTY5ODE0OTQ2MSwiZXhwIjoxNjk4MTUzMDYxfQ.km5O55aj10Yd7I_OYgnWRyCgtbwRQT-lW-gD3qQqrS4WAQWZgP4L80VUW1tmNGEvAT_imJgEVXcGvqKkyB5eEg
+
+{
+    "reservationDate": "2023-10-22T10:00:00"
+}
+
+### get reservationList (User)
+GET http://localhost:8080/reservation/list
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdm9jYWRvIiwibWVtYmVyVHlwZSI6IlJPTEVfVVNFUiIsImlhdCI6MTY5ODE0NjUzMSwiZXhwIjoxNjk4MTUwMTMxfQ.eNk8opC1gi642UCVdylW37-bo6ODiDblrPqDrgloD2alDCPtyBcs-2DHfkiiRaK9zStHcL9NpHYjcUmXQNV1Rg
+
+### get reseravtionList (Partner)
+GET http://localhost:8080/reservation/list/5?date=2023-10-22
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvcmFuZ2UiLCJtZW1iZXJUeXBlIjoiUk9MRV9QQVJUTkVSIiwiaWF0IjoxNjk4MTQ5NDg5LCJleHAiOjE2OTgxNTMwODl9.3cRpQo1OTMQJR_s9pNe-YBgxc-wiUecfNu-QBzgnlm5cMDqeEyMQMRNY-0qjEgDIe44oe62pTI9xUNLLisTq1g

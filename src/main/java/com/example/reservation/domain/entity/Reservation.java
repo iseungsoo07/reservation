@@ -1,5 +1,6 @@
 package com.example.reservation.domain.entity;
 
+import com.example.reservation.type.ReservationStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,4 +30,8 @@ public class Reservation {
     private Store store;
 
     private LocalDateTime reservationDate;
+
+    @Enumerated(EnumType.STRING)
+    private ReservationStatus reservationStatus;
+
 }

@@ -12,24 +12,19 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ReservationResponse {
-    private String storeName;
+public class ReservationPartnerResponse {
     private String memberName;
-    private String address;
-    private String contact;
+    private String phone;
     private LocalDateTime reservationDate;
     private ReservationStatus reservationStatus;
 
-    public static Page<ReservationResponse> toDtoList(Page<Reservation> page) {
-        return page.map(reservation -> ReservationResponse.builder()
-                .storeName(reservation.getStore().getName())
+    public static Page<ReservationPartnerResponse> toDtoList(Page<Reservation> page) {
+        return page.map(reservation -> ReservationPartnerResponse.builder()
                 .memberName(reservation.getMember().getName())
-                .address(reservation.getStore().getAddress())
-                .contact(reservation.getStore().getContact())
+                .phone(reservation.getMember().getPhone())
                 .reservationDate(reservation.getReservationDate())
                 .reservationStatus(reservation.getReservationStatus())
                 .build());
 
     }
-
 }

@@ -1,14 +1,14 @@
 ### regist store
 POST http://localhost:8080/store/regist
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcHBsZSIsIm1lbWJlclR5cGUiOiJST0xFX1BBUlRORVIiLCJpYXQiOjE2OTc3OTExOTgsImV4cCI6MTY5Nzc5NDc5OH0.0VVPWXhlOa3rBmOKushjhGBKw0hFCpDvnC9Kz9hSQJNsDcTDKz0xNltBu7xj08qfTi-ocED2WKAwb9TYPFzT9Q
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvcmFuZ2UiLCJtZW1iZXJUeXBlIjoiUk9MRV9QQVJUTkVSIiwiaWF0IjoxNjk4MTQ5NDMxLCJleHAiOjE2OTgxNTMwMzF9.P_yDaNrxWLp2ghgINYdt9m1hdaIfksi0nDEP4EbohD71xl8Y6HmyMwP3HbdVIz6Ka8KJcsYArau1AijwrzcEdA
 
 {
-    "owner": "김사과",
-    "name": "동대문 엽기떡볶이 성복점",
-    "address": "경기도 용인시 수지구 성복동",
-    "description": "둘이 먹다 하나 죽어도 모를 동대문 엽기떡볶이 성복점",
-    "contact": "031-123-1234",
+    "owner": "orange",
+    "name": "동대문 엽기떡볶이 서초점",
+    "address": "서울특별시 서초구",
+    "description": "둘이 먹다 하나 죽어도 모를 동대문 엽기떡볶이 서초점",
+    "contact": "02-123-1234",
     "open": "09:00:00",
     "close": "22:00:00"
 }
@@ -21,12 +21,3 @@ GET http://localhost:8080/store/list?orderBy=review
 
 ### get store details
 GET http://localhost:8080/store/details/2
-
-### reserve store
-POST http://localhost:8080/store/reservation/1
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdm9jYWRvIiwibWVtYmVyVHlwZSI6IlJPTEVfVVNFUiIsImlhdCI6MTY5ODA1NzExMSwiZXhwIjoxNjk4MDYwNzExfQ.GBv6EKLNTrcAvon8c-fR1iVgOFVkYu2U2AOA7djjFfrAE-eb_qyniS7Vo31XLuoGHk5Jap8Uldwcd0B-WRb_5Q
-
-{
-    "reservationDate": "2023-10-23T11:00:00"
-}

@@ -1,11 +1,9 @@
 package com.example.reservation.controller;
 
 import com.example.reservation.domain.entity.Store;
-import com.example.reservation.domain.model.ReservationRequest;
 import com.example.reservation.domain.model.StoreResponse;
 import com.example.reservation.exception.ReservationException;
 import com.example.reservation.service.StoreService;
-import com.example.reservation.utils.LoginCheckUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.example.reservation.exception.ErrorCode.*;
+import static com.example.reservation.exception.ErrorCode.ACCESS_DENIED;
+import static com.example.reservation.exception.ErrorCode.INVALID_REQUEST;
 
 
 @RestController
@@ -70,20 +69,4 @@ public class StoreController {
         return ResponseEntity.ok(storeService.getStoreDetails(id));
     }
 
-    @PostMapping("/reservation/{id}")
-    public ResponseEntity<?> reserveStore(@PathVariable Long id,
-                                          @RequestBody ReservationRequest reservationRequest) {
-
-        UserDetails userDetails = LoginCheckUtils.loginCheck();
-
-        String userId = userDetails.getUsername();
-
-        if (userDetails.getAuthorities()
-                .stream().noneMatch(a -> a.getAuthority().equals("ROLE_USER") || a.getAuthority().equals("ROLE_PARTNER"))) {
-            throw new ReservationException(NEED_LOGIN);
-        }
-
-        log.info("userId = {}", userId);
-        return ResponseEntity.ok(storeService.reserveStore(id, userId, reservationRequest));
-    }
 }

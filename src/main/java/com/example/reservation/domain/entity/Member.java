@@ -16,6 +16,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Getter
@@ -28,10 +29,14 @@ public class Member implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String userId;
     private String password;
     private String name;
     private String phone;
+
+    @OneToMany(mappedBy = "member")
+    private List<Reservation> reservationList;
 
     @Enumerated(EnumType.STRING)
     private MemberType memberType;

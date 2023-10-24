@@ -1,8 +1,6 @@
 package com.example.reservation.service;
 
 import com.example.reservation.domain.entity.Store;
-import com.example.reservation.domain.model.ReservationRequest;
-import com.example.reservation.domain.model.ReservationResponse;
 import com.example.reservation.domain.model.StoreResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +19,4 @@ public interface StoreService {
     List<StoreResponse> searchStore(String prefix);
 
     StoreResponse getStoreDetails(Long id);
-
-    ReservationResponse reserveStore(Long id, String userId, ReservationRequest reservationRequest);
-
 }
