@@ -6,7 +6,6 @@ spring:
     password: choco025874
   jpa:
     defer-datasource-initialization: true
-    database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: create-drop
     properties:

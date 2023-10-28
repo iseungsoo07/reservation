@@ -14,4 +14,8 @@ public interface ReservationService {
     Page<ReservationResponse> getReservationListForUser(String userId, Pageable pageable);
 
     Page<ReservationPartnerResponse> getReservationListForPartner(String userId, Long storeId, LocalDate date, Pageable pageable);
+
+    ReservationPartnerResponse approveReservation(String userId, Long reservationId);
+
+    ReservationPartnerResponse refuseReservation(String userId, Long reservationId);
 }

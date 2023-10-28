@@ -54,7 +54,6 @@ class StoreServiceImplTest {
         StoreResponse storeResponse = storeService.addStore(store);
 
         // then
-        assertEquals("김사과", storeResponse.getOwner());
         assertEquals("동대문 엽기떡볶이 상현점", storeResponse.getName());
         assertEquals("경기도 용인시 수지구 상현동", storeResponse.getAddress());
         assertEquals("09:00", storeResponse.getOpen().toString());

@@ -1,23 +1,22 @@
 ### regist store
 POST http://localhost:8080/store/regist
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvcmFuZ2UiLCJtZW1iZXJUeXBlIjoiUk9MRV9QQVJUTkVSIiwiaWF0IjoxNjk4MTQ5NDMxLCJleHAiOjE2OTgxNTMwMzF9.P_yDaNrxWLp2ghgINYdt9m1hdaIfksi0nDEP4EbohD71xl8Y6HmyMwP3HbdVIz6Ka8KJcsYArau1AijwrzcEdA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcHBsZSIsIm1lbWJlclR5cGUiOiJST0xFX1BBUlRORVIiLCJpYXQiOjE2OTg0NjUxNzQsImV4cCI6MTY5ODQ2ODc3NH0.jIZ9G_nIuBQPtviUOUuAijJ-dA4XVdbO-59S68YhFb4cakKCk9J-ISZ1nZPALEDxX4qDLDqhQzjvcqVUQaw26Q
 
 {
-    "owner": "orange",
-    "name": "동대문 엽기떡볶이 서초점",
-    "address": "서울특별시 서초구",
-    "description": "둘이 먹다 하나 죽어도 모를 동대문 엽기떡볶이 서초점",
-    "contact": "02-123-1234",
+    "name": "기사식당",
+    "address": "경기도 이천시",
+    "description": "불백은 진리",
+    "contact": "031-123-9082",
     "open": "09:00:00",
-    "close": "22:00:00"
+    "close": "17:00:00"
 }
 
 ### search store
 GET http://localhost:8080/store/search?name=동
 
 ### get stores
-GET http://localhost:8080/store/list?orderBy=review
+GET http://localhost:8080/store/list?orderBy=rating
 
 ### get store details
-GET http://localhost:8080/store/details/2
+GET http://localhost:8080/store/details/9

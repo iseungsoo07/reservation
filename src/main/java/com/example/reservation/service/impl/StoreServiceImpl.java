@@ -1,15 +1,18 @@
 package com.example.reservation.service.impl;
 
 import com.example.reservation.domain.entity.Store;
+import com.example.reservation.domain.model.StoreRequest;
 import com.example.reservation.domain.model.StoreResponse;
 import com.example.reservation.exception.ErrorCode;
 import com.example.reservation.exception.ReservationException;
 import com.example.reservation.repository.StoreRepository;
 import com.example.reservation.service.StoreService;
+import com.example.reservation.utils.LoginCheckUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,12 +29,25 @@ public class StoreServiceImpl implements StoreService {
     private final StoreRepository storeRepository;
 
     @Override
-    public StoreResponse addStore(Store store) {
-        Optional<Store> optionalStore = storeRepository.findByAddressAndOwner(store.getAddress(), store.getOwner());
+    public StoreResponse addStore(StoreRequest storeRequest) {
+        UserDetails userDetails = LoginCheckUtils.loginCheck();
+        String userId = userDetails.getUsername();
+
+        Optional<Store> optionalStore = storeRepository.findByAddressAndContact(storeRequest.getAddress(), storeRequest.getContact());
 
         if (optionalStore.isPresent()) {
             throw new ReservationException(ErrorCode.ALREADY_EXISTS_STORE);
         }
+
+        Store store = Store.builder()
+                .owner(userId)
+                .name(storeRequest.getName())
+                .address(storeRequest.getAddress())
+                .description(storeRequest.getDescription())
+                .contact(storeRequest.getContact())
+                .open(storeRequest.getOpen())
+                .close(storeRequest.getClose())
+                .build();
 
         Store savedStore = storeRepository.save(store);
 

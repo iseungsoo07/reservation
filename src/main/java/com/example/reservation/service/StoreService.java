@@ -1,6 +1,6 @@
 package com.example.reservation.service;
 
-import com.example.reservation.domain.entity.Store;
+import com.example.reservation.domain.model.StoreRequest;
 import com.example.reservation.domain.model.StoreResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface StoreService {
-    StoreResponse addStore(Store store);
+    StoreResponse addStore(StoreRequest storeRequest);
 
     Page<StoreResponse> getStoresOrderByName(Pageable pageable);
 

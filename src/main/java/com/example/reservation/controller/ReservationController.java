@@ -43,12 +43,13 @@ public class ReservationController {
         List<String> authorities = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority).collect(Collectors.toList());
 
-        if (authorities.contains("ROLE_USER")) {
-            String userId = userDetails.getUsername();
-            return ResponseEntity.ok(reservationService.getReservationListForUser(userId, pageable));
+        String userId = userDetails.getUsername();
+
+        if (!authorities.contains("ROLE_USER")) {
+            throw new ReservationException(ONLY_FOR_USER);
         }
 
-        throw new ReservationException(ONLY_FOR_USER);
+        return ResponseEntity.ok(reservationService.getReservationListForUser(userId, pageable));
     }
 
     @GetMapping("/list/{storeId}")
@@ -62,10 +63,42 @@ public class ReservationController {
 
         String userId = userDetails.getUsername();
 
-        if (authorities.contains("ROLE_PARTNER")) {
-            return ResponseEntity.ok(reservationService.getReservationListForPartner(userId, storeId, date, pageable));
+        if (!authorities.contains("ROLE_PARTNER")) {
+            throw new ReservationException(ONLY_FOR_PARTNER);
         }
 
-        throw new ReservationException(ONLY_FOR_PARTNER);
+        return ResponseEntity.ok(reservationService.getReservationListForPartner(userId, storeId, date, pageable));
+    }
+
+    @PatchMapping("/approval/{reservationId}")
+    public ResponseEntity<?> approveReservation(@PathVariable Long reservationId) {
+        UserDetails userDetails = LoginCheckUtils.loginCheck();
+
+        List<String> authorities = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+
+        String userId = userDetails.getUsername();
+
+        if (!authorities.contains("ROLE_PARTNER")) {
+            throw new ReservationException(ONLY_FOR_PARTNER);
+        }
+
+        return ResponseEntity.ok(reservationService.approveReservation(userId, reservationId));
+    }
+
+    @PatchMapping("/refusal/{reservationId}")
+    public ResponseEntity<?> refuseReservation(@PathVariable Long reservationId) {
+        UserDetails userDetails = LoginCheckUtils.loginCheck();
+
+        List<String> authorities = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+
+        String userId = userDetails.getUsername();
+
+        if (!authorities.contains("ROLE_PARTNER")) {
+            throw new ReservationException(ONLY_FOR_PARTNER);
+        }
+
+        return ResponseEntity.ok(reservationService.refuseReservation(userId, reservationId));
     }
 }

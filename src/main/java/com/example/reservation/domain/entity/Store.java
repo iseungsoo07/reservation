@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -34,8 +33,9 @@ public class Store {
     private LocalTime open;
     private LocalTime close;
 
-    @ColumnDefault("0.0")
-    private Double rating;
+    @Builder.Default
+    @Column(columnDefinition = "default 0.0")
+    private Double rating = 0.0;
 
     @OneToMany(mappedBy = "store")
     private List<Reservation> reservationList;
@@ -48,5 +48,4 @@ public class Store {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
-
 }

@@ -3,11 +3,11 @@ POST http://localhost:8080/user/signup
 Content-Type: application/json
 
 {
-    "userId": "avocado",
-    "password": "4444",
-    "name": "안카도",
-    "phone": "010-4444-4444",
-    "memberType": "ROLE_USER"
+    "userId": "apple",
+    "password": "1111",
+    "name": "김사과",
+    "phone": "010-1111-1111",
+    "memberType": "ROLE_PARTNER"
 }
 
 ### signin
@@ -15,6 +15,6 @@ POST http://localhost:8080/user/signin
 Content-Type: application/json
 
 {
-    "userId": "orange",
-    "password": "5555"
+    "userId": "apple",
+    "password": "1111"
 }

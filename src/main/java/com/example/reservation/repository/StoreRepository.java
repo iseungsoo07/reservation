@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Repository
 public interface StoreRepository extends JpaRepository<Store, Long> {
-    Optional<Store> findByAddressAndOwner(String address, String owner);
+    Optional<Store> findByAddressAndContact(String address, String contact);
 
     List<Store> findByNameStartsWith(@Param("name") String name);
 

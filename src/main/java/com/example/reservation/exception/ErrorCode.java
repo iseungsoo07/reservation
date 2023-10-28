@@ -23,8 +23,9 @@ public enum ErrorCode {
     ALREADY_EXISTS_STORE("이미 등록되어 있는 매장입니다."),
 
     // 예약 관련
-    CAN_CHECK_OWN_STORE("매장의 점주만 매장 예약 현황을 확인할 수 있습니다."),
-    ALREADY_RESERVED_TIME("이미 예약된 시간입니다.");
+    SERVICE_ONLY_FOR_OWNER("해당 매장의 점장만 이용가능한 서비스입니다."),
+    NOT_FOUND_RESERVATION("예약 정보가 없습니다."),
+    ALREADY_RESERVED_TIME("이미 예약이 된 시간입니다. 다른 시간을 선택해주세요.");
 
     private final String description;
 }

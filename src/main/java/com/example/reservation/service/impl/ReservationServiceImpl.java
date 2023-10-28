@@ -24,7 +24,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.example.reservation.exception.ErrorCode.*;
-import static com.example.reservation.type.ReservationStatus.WAITING;
+import static com.example.reservation.type.ReservationStatus.*;
 
 @Service
 @RequiredArgsConstructor
@@ -67,7 +67,7 @@ public class ReservationServiceImpl implements ReservationService {
     public Page<ReservationResponse> getReservationListForUser(String userId, Pageable pageable) {
         Member member = getMember(userId);
 
-        Page<Reservation> memberReservationPage = reservationRepository.findByMember(member, pageable);
+        Page<Reservation> memberReservationPage = reservationRepository.findAllByMemberOrderByReservationDateDesc(member, pageable);
 
         return ReservationResponse.toDtoList(memberReservationPage);
     }
@@ -80,10 +80,10 @@ public class ReservationServiceImpl implements ReservationService {
         Member member = getMember(userId);
 
         if (!Objects.equals(store.getOwner(), member.getUserId())) {
-            throw new ReservationException(CAN_CHECK_OWN_STORE);
+            throw new ReservationException(SERVICE_ONLY_FOR_OWNER);
         }
 
-        Page<Reservation> storeReservationPage = reservationRepository.findByStoreOrderByReservationDate(store, pageable);
+        Page<Reservation> storeReservationPage = reservationRepository.findAllByStoreOrderByReservationDate(store, pageable);
 
         List<Reservation> filteredReservations = storeReservationPage.stream().filter(
                 srp -> srp.getReservationDate().getYear() == date.getYear() &&
@@ -93,6 +93,50 @@ public class ReservationServiceImpl implements ReservationService {
         Page<Reservation> filteredPage = new PageImpl<>(filteredReservations, pageable, filteredReservations.size());
 
         return ReservationPartnerResponse.toDtoList(filteredPage);
+    }
+
+    @Override
+    public ReservationPartnerResponse approveReservation(String userId, Long reservationId) {
+        Member member = getMember(userId);
+
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new ReservationException(NOT_FOUND_RESERVATION));
+
+        if (!Objects.equals(reservation.getStore().getOwner(), member.getUserId())) {
+            throw new ReservationException(SERVICE_ONLY_FOR_OWNER);
+        }
+
+        reservation.updateStatus(APPROVAL);
+        Reservation savedReservation = reservationRepository.save(reservation);
+
+        return ReservationPartnerResponse.builder()
+                .memberName(savedReservation.getMember().getName())
+                .phone(savedReservation.getMember().getPhone())
+                .reservationDate(savedReservation.getReservationDate())
+                .reservationStatus(savedReservation.getReservationStatus())
+                .build();
+    }
+
+    @Override
+    public ReservationPartnerResponse refuseReservation(String userId, Long reservationId) {
+        Member member = getMember(userId);
+
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new ReservationException(NOT_FOUND_RESERVATION));
+
+        if (!Objects.equals(reservation.getStore().getOwner(), member.getUserId())) {
+            throw new ReservationException(SERVICE_ONLY_FOR_OWNER);
+        }
+
+        reservation.updateStatus(REFUSAL);
+        Reservation savedReservation = reservationRepository.save(reservation);
+
+        return ReservationPartnerResponse.builder()
+                .memberName(savedReservation.getMember().getName())
+                .phone(savedReservation.getMember().getPhone())
+                .reservationDate(savedReservation.getReservationDate())
+                .reservationStatus(savedReservation.getReservationStatus())
+                .build();
     }
 
 
