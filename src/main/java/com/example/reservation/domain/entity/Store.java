@@ -47,4 +47,13 @@ public class Store {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    public void updateRating(double rating) {
+        double totalRating = reviews.stream()
+                .mapToDouble(Review::getRating)
+                .sum();
+        int totalCount = reviews.size();
+
+        this.rating = totalRating / totalCount;
+    }
 }

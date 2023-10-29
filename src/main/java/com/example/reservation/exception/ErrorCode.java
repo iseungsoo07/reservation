@@ -27,10 +27,14 @@ public enum ErrorCode {
     NOT_FOUND_RESERVATION("예약 정보가 없습니다."),
     ALREADY_RESERVED_TIME("이미 예약이 된 시간입니다. 다른 시간을 선택해주세요."),
     NOT_APPROVED_RESERVATION("승인된 예약이 아닙니다."),
-    UNMATCH_RESERVED_INFORMATION("예약자 정보 불일치"),
+    UNMATCH_RESERVED_INFORMATION("예약 정보 불일치"),
     ARRIVE_TOO_EARLY("아직 예약시간 10분전이 아닙니다."),
     ARRIVE_TOO_LATE("예약시간 10분전이 지났습니다."),
-    ALREADY_VISITED_RESERVATION("이미 방문처리된 예약입니다.");
+    ALREADY_VISITED_RESERVATION("이미 방문처리된 예약입니다."),
+
+    // 리뷰 관련
+    NOT_USED_RESERVATION("예약 및 사용하지 않은 매장에 리뷰를 작성할 수 없습니다."),
+    ALREADY_REVIEWED_RESERVATION("이미 리뷰를 작성한 예약 내역입니다.");
 
     private final String description;
 }

@@ -19,4 +19,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     Page<Reservation> findAllByMemberOrderByReservationDateDesc(Member member, Pageable pageable);
 
     Page<Reservation> findAllByStoreOrderByReservationDate(Store store, Pageable pageable);
+
+    Optional<Reservation> findByStoreAndMember(Store store, Member member);
 }
