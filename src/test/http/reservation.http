@@ -1,11 +1,14 @@
 ### reserve store
 POST http://localhost:8080/reservation/2
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdm9jYWRvIiwibWVtYmVyVHlwZSI6IlJPTEVfVVNFUiIsImlhdCI6MTY5ODU0OTk4OSwiZXhwIjoxNjk4NTUzNTg5fQ.Qvs1BtLDORuj4INLXCKj95AdA9xLkRDPmx9bDxE3EawzqYH9pE1Ndn5lv_gCx9HeODhl61ZbN_s13qoN7ighsQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtZWxvbiIsIm1lbWJlclR5cGUiOiJST0xFX1VTRVIiLCJpYXQiOjE2OTg1ODY1NjEsImV4cCI6MTY5ODU5MDE2MX0.-Nsq70yooQzq9gnDmeOC8QMa260ir5ECWxbetyI6I1jmFQ1U2eS6Ofak-9Irum2sD8sKyF5ANUhqzJyBta-n7Q
 
 {
-    "reservationDate": "2023-10-29T13:30:00"
+    "reservationDate": "2023-10-29T22:44:00"
 }
+
+### cancle reservation
+DELETE http://localhost:8080/reservation/cancel/5
 
 ### get reservationList (User)
 GET http://localhost:8080/reservation/list

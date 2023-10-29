@@ -61,6 +61,9 @@ public class StoreController {
         return ResponseEntity.ok(storeResponse);
     }
 
+    /**
+     * 매장 삭제
+     */
     @DeleteMapping("/delete/{storeId}")
     public ResponseEntity<?> deleteStore(@PathVariable Long storeId) {
         UserDetails userDetails = LoginCheckUtils.loginCheck();
@@ -70,9 +73,7 @@ public class StoreController {
             throw new ReservationException(ONLY_FOR_PARTNER);
         }
 
-        storeService.deleteStore(storeId, userId);
-
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(storeService.deleteStore(storeId, userId));
     }
 
     /**
@@ -80,7 +81,6 @@ public class StoreController {
      * 쿼리 파라미터로 orderBy 를 입력받아 입력받은 값을 기준으로 정렬한다.
      */
     @GetMapping("/list")
-
     public ResponseEntity<?> getStores(@RequestParam(required = false, defaultValue = "name") String orderBy,
                                        Pageable pageable) {
         return getStoresByQueryParam(orderBy, pageable);

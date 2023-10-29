@@ -3,6 +3,7 @@ package com.example.reservation.service.impl;
 import com.example.reservation.domain.entity.Member;
 import com.example.reservation.domain.entity.Reservation;
 import com.example.reservation.domain.entity.Store;
+import com.example.reservation.domain.model.MessageResponse;
 import com.example.reservation.domain.model.ReservationPartnerResponse;
 import com.example.reservation.domain.model.ReservationRequest;
 import com.example.reservation.domain.model.ReservationResponse;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -70,6 +72,38 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     /**
+     * 예약 수정
+     */
+
+
+    /**
+     * 매장 예약 취소
+     * 정책상 예약시간 30분전 이후부터는 취소가 불가능 하도록 한다.
+     * 예약 리스트에서 예약 내역을 보고 취소를 하기 때문에
+     * 로그인하지 않은 경우를 생각하지 않음
+     */
+    @Override
+    public MessageResponse cancelReservation(Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new ReservationException(NOT_FOUND_RESERVATION));
+
+        LocalDateTime now = LocalDateTime.now();
+
+        // 정책상 이미 방문처리 된 상태거나 (= 예약시간이 이미 10분밖에 안남았다는 것을 의미)
+        // 예약 시간 30분전부터는 취소가 불가능
+        if (reservation.isVisitYn() || now.isAfter(reservation.getReservationDate().minusMinutes(30))) {
+            throw new ReservationException(CANNOT_CANCEL_RESERVATION);
+        }
+
+        reservationRepository.delete(reservation);
+
+        return MessageResponse.builder()
+                .message("예약 취소 완료!")
+                .build();
+    }
+
+
+    /**
      * 예약 내역 - 사용자
      */
     @Override
@@ -87,7 +121,7 @@ public class ReservationServiceImpl implements ReservationService {
      */
     @Override
     public Page<ReservationPartnerResponse> getReservationListForPartner
-            (String userId, Long storeId, LocalDate date, Pageable pageable) {
+    (String userId, Long storeId, LocalDate date, Pageable pageable) {
 
         Store store = getStore(storeId);
         Member member = getMember(userId);

@@ -9,10 +9,7 @@ import com.example.reservation.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -45,6 +42,11 @@ public class MemberController {
         log.info("{} 사용자 로그인 성공", signInRequest.getUserId());
 
         return ResponseEntity.ok(token);
+    }
+
+    @DeleteMapping("/delete/{memberId}")
+    public ResponseEntity<?> deleteMember(@PathVariable Long memberId) {
+        return ResponseEntity.ok(memberService.deleteMember(memberId));
     }
 
 }

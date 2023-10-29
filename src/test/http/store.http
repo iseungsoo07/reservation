@@ -1,13 +1,13 @@
 ### regist store
 POST http://localhost:8080/store/regist
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcHBsZSIsIm1lbWJlclR5cGUiOiJST0xFX1BBUlRORVIiLCJpYXQiOjE2OTg1NjM3NjYsImV4cCI6MTY5ODU2NzM2Nn0.7LEaTDOxiEleHeCfujgsfzuuu4MvHMT2HmEz88KAStXPEQXzr-z4N4MjnUx3unh5iYCGeABI3dalfX3pYaydRg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmMiLCJtZW1iZXJUeXBlIjoiUk9MRV9QQVJUTkVSIiwiaWF0IjoxNjk4NTg1NzYxLCJleHAiOjE2OTg1ODkzNjF9.2c8xW3TmFCRwdj3F2cWVo8qS1g798CssDNz5i7yzkStbZdR1tUcn4eQMLubMlySMIjTS8Og0yOs94i14vbhoVw
 
 {
     "name": "ㅁㄴㅇㄹㅁㄴㅇ",
-    "address": "경기도 용인시 수지구 성복동",
-    "description": "기차를 테마로 한 맛집",
-    "contact": "031-453-1234",
+    "address": "경기도 용인시 분당구 성복동",
+    "description": "기차를 테마로 ㅁㄴㅇㄹ 맛집",
+    "contact": "031-233-1234",
     "open": "10:00:00",
     "close": "20:00:00"
 }
@@ -27,8 +27,8 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcHBsZSIsIm1lbWJlclR5cGUiO
 }
 
 ### delete store
-DELETE http://localhost:8080/store/delete/8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcHBsZSIsIm1lbWJlclR5cGUiOiJST0xFX1BBUlRORVIiLCJpYXQiOjE2OTg1NjM3NjYsImV4cCI6MTY5ODU2NzM2Nn0.7LEaTDOxiEleHeCfujgsfzuuu4MvHMT2HmEz88KAStXPEQXzr-z4N4MjnUx3unh5iYCGeABI3dalfX3pYaydRg
+DELETE http://localhost:8080/store/delete/9
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmMiLCJtZW1iZXJUeXBlIjoiUk9MRV9QQVJUTkVSIiwiaWF0IjoxNjk4NTg1NzYxLCJleHAiOjE2OTg1ODkzNjF9.2c8xW3TmFCRwdj3F2cWVo8qS1g798CssDNz5i7yzkStbZdR1tUcn4eQMLubMlySMIjTS8Og0yOs94i14vbhoVw
 
 
 ### search store

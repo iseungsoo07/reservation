@@ -16,7 +16,7 @@ public class KioskController {
      * 키오스크 방문 확인
      */
     @PatchMapping("/confirm/{reservationId}")
-    public ResponseEntity<String> confirmVisit(@PathVariable Long reservationId, @RequestBody KioskRequest kioskRequest) {
+    public ResponseEntity<?> confirmVisit(@PathVariable Long reservationId, @RequestBody KioskRequest kioskRequest) {
         return ResponseEntity.ok(kioskService.confirmVisit(reservationId, kioskRequest));
     }
 

@@ -1,6 +1,7 @@
 package com.example.reservation.service;
 
 import com.example.reservation.domain.entity.Member;
+import com.example.reservation.domain.model.MessageResponse;
 import com.example.reservation.domain.model.SignInRequest;
 import com.example.reservation.domain.model.SignUpRequest;
 import com.example.reservation.domain.model.SignUpResponse;
@@ -15,4 +16,6 @@ public interface MemberService extends UserDetailsService {
     SignUpResponse signUp(SignUpRequest signUpRequest);
 
     Member authenticate(SignInRequest signInRequest);
+
+    MessageResponse deleteMember(Long memberId);
 }

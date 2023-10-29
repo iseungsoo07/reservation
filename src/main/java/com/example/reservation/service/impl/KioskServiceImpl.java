@@ -2,6 +2,7 @@ package com.example.reservation.service.impl;
 
 import com.example.reservation.domain.entity.Reservation;
 import com.example.reservation.domain.model.KioskRequest;
+import com.example.reservation.domain.model.MessageResponse;
 import com.example.reservation.exception.ErrorCode;
 import com.example.reservation.exception.ReservationException;
 import com.example.reservation.repository.ReservationRepository;
@@ -23,7 +24,7 @@ public class KioskServiceImpl implements KioskService {
      * 예약 10분전에 도착하여 키오스크를 통해서 방문확인을 진행
      */
     @Override
-    public String confirmVisit(Long reservationId, KioskRequest kioskRequest) {
+    public MessageResponse confirmVisit(Long reservationId, KioskRequest kioskRequest) {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new ReservationException(ErrorCode.NOT_FOUND_RESERVATION));
 
@@ -32,7 +33,9 @@ public class KioskServiceImpl implements KioskService {
         reservation.updateVisitYn(true);
         reservationRepository.save(reservation);
 
-        return "예왁 확인이 완료되었습니다.";
+        return MessageResponse.builder()
+                .message("예약 확인이 완료되었습니다.")
+                .build();
     }
 
     /**

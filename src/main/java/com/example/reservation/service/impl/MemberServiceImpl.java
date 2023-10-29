@@ -1,12 +1,15 @@
 package com.example.reservation.service.impl;
 
 import com.example.reservation.domain.entity.Member;
+import com.example.reservation.domain.entity.Store;
+import com.example.reservation.domain.model.MessageResponse;
 import com.example.reservation.domain.model.SignInRequest;
 import com.example.reservation.domain.model.SignUpRequest;
 import com.example.reservation.domain.model.SignUpResponse;
 import com.example.reservation.exception.ErrorCode;
 import com.example.reservation.exception.ReservationException;
 import com.example.reservation.repository.MemberRepository;
+import com.example.reservation.repository.StoreRepository;
 import com.example.reservation.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,14 +18,16 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import static com.example.reservation.exception.ErrorCode.NOT_FOUND_MEMBER;
-import static com.example.reservation.exception.ErrorCode.PASSWORD_UNMATCH;
+import java.util.Optional;
+
+import static com.example.reservation.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService, UserDetailsService {
 
     private final MemberRepository memberRepository;
+    private final StoreRepository storeRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -71,5 +76,28 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
         }
 
         return member;
+    }
+
+    /**
+     * 회원 탈퇴
+     * 상점의 점장인 경우 상점을 먼저 삭제해야 탈퇴할 수 있다.
+     */
+    @Override
+    public MessageResponse deleteMember(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new ReservationException(NOT_FOUND_MEMBER));
+
+        Optional<Store> optionalStore = storeRepository.findByOwner(member.getUserId());
+
+        // 매장이 존재하는 사용자는 탈퇴 불가 -> 예외 발생
+        if (optionalStore.isPresent()) {
+            throw new ReservationException(MEMBER_HAS_STORE);
+        }
+
+        memberRepository.delete(member);
+
+        return MessageResponse.builder()
+                .message("회원 탈퇴 완료!")
+                .build();
     }
 }

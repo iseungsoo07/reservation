@@ -17,9 +17,9 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
     List<Store> findByNameStartsWith(@Param("name") String name);
 
-    Optional<Store> findByName(String name);
-
     Page<Store> findAllByOrderByName(Pageable pageable);
+
+    Optional<Store> findByOwner(String owner);
 
     Page<Store> findAllByOrderByRatingDesc(Pageable pageable);
 

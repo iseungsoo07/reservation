@@ -1,6 +1,7 @@
 package com.example.reservation.service.impl;
 
 import com.example.reservation.domain.entity.Store;
+import com.example.reservation.domain.model.MessageResponse;
 import com.example.reservation.domain.model.StoreRequest;
 import com.example.reservation.domain.model.StoreResponse;
 import com.example.reservation.exception.ErrorCode;
@@ -17,8 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.example.reservation.exception.ErrorCode.NOT_FOUND_STORE;
-import static com.example.reservation.exception.ErrorCode.SERVICE_ONLY_FOR_OWNER;
+import static com.example.reservation.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -80,13 +80,26 @@ public class StoreServiceImpl implements StoreService {
      * 매장 삭제
      */
     @Override
-    public void deleteStore(Long storeId, String userId) {
+    public MessageResponse deleteStore(Long storeId, String userId) {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new ReservationException(NOT_FOUND_STORE));
+
+        // 삭제하려는 매장이 예약이 있다면 삭제 불가
+        hasReservation(store);
 
         validateOwnerAndUser(store.getOwner(), userId);
 
         storeRepository.delete(store);
+
+        return MessageResponse.builder()
+                .message("매장 삭제 완료!")
+                .build();
+    }
+
+    private static void hasReservation(Store store) {
+        if (!store.getReservationList().isEmpty()) {
+            throw new ReservationException(STORE_HAS_RESERVATION);
+        }
     }
 
     private void validateOwnerAndUser(String ownerId, String userId) {

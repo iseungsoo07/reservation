@@ -39,6 +39,11 @@ public class ReservationController {
         return ResponseEntity.ok(reservationService.reserveStore(storeId, userId, reservationRequest));
     }
 
+    @DeleteMapping("/cancel/{reservationId}")
+    public ResponseEntity<?> cancelReservation(@PathVariable Long reservationId) {
+        return ResponseEntity.ok(reservationService.cancelReservation(reservationId));
+    }
+
     /**
      * 예약 확인 - 사용자
      * 자기가 예약한 예약 내역을 리스트로 보여준다.
