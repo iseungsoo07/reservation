@@ -25,12 +25,18 @@ public class MemberController {
     private final MemberService memberService;
     private final TokenProvider tokenProvider;
 
+    /**
+     * 회원가입
+     */
     @PostMapping("/signup")
     public ResponseEntity<?> signUp(@RequestBody @Valid SignUpRequest signUpRequest) {
         SignUpResponse signUpResponse = memberService.signUp(signUpRequest);
         return ResponseEntity.ok(signUpResponse);
     }
 
+    /**
+     * 로그인
+     */
     @PostMapping("/signin")
     public ResponseEntity<?> signIn(@RequestBody SignInRequest signInRequest) {
         Member member = memberService.authenticate(signInRequest);

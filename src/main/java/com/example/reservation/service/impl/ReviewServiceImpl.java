@@ -1,6 +1,6 @@
 package com.example.reservation.service.impl;
 
-import com.example.reservation.controller.ReviewRequest;
+import com.example.reservation.domain.model.ReviewRequest;
 import com.example.reservation.domain.entity.Member;
 import com.example.reservation.domain.entity.Reservation;
 import com.example.reservation.domain.entity.Review;
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.example.reservation.type.ReservationStatus.APPROVAL;
 import static com.example.reservation.type.ReservationStatus.REVIEWED;
@@ -80,8 +81,24 @@ public class ReviewServiceImpl implements ReviewService {
         }
     }
 
+    /**
+     * 매장 아이디를 통해 매장을 찾고,
+     * 해당 매장이 가진 리뷰들을 작성일자가 빠른 순으로 정렬해서 리스트를 보여준다.
+     */
     @Override
     public List<ReviewResponse> showReviews(Long storeId) {
-        return null;
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new ReservationException(ErrorCode.NOT_FOUND_STORE));
+
+        List<Review> reviews = store.getReviews();
+
+        return reviews.stream()
+                .sorted((x, y) -> y.getCreatedAt().compareTo(x.getCreatedAt()))
+                .map(review -> ReviewResponse.builder()
+                        .userId(review.getMember().getUserId())
+                        .storeName(review.getStore().getName())
+                        .content(review.getContent())
+                        .rating(review.getRating())
+                        .build()).collect(Collectors.toList());
     }
 }

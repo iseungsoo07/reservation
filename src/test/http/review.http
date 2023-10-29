@@ -1,11 +1,14 @@
 ### add review
-POST http://localhost:8080/review/1
+POST http://localhost:8080/review/4
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtZWxvbiIsIm1lbWJlclR5cGUiOiJST0xFX1VTRVIiLCJpYXQiOjE2OTg1NTQ0NTIsImV4cCI6MTY5ODU1ODA1Mn0.3YQCZW0hQ6QaBIPig7-gsIJrUVD01c72NHjbcvnAYYNDsuUv96htbJ1mwOdnKTYquGcLq_Q4CmQVhjdP9Z7PFg
 
 {
-    "userId": "melon",
+    "userId": "berry",
     "storeId": 2,
     "content": "서비스 너무 만족했습니다!!",
-    "rating": 3.5
+    "rating": 5.0
 }
+
+### show reviews
+GET http://localhost:8080/review/2

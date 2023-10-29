@@ -1,6 +1,6 @@
 package com.example.reservation.service;
 
-import com.example.reservation.controller.ReviewRequest;
+import com.example.reservation.domain.model.ReviewRequest;
 import com.example.reservation.domain.model.ReviewResponse;
 
 import java.util.List;

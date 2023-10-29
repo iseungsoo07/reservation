@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/kiosk")
 public class KioskController {
-
     private final KioskService kioskService;
 
+    /**
+     * 키오스크 방문 확인
+     */
     @PatchMapping("/confirm/{reservationId}")
     public ResponseEntity<String> confirmVisit(@PathVariable Long reservationId, @RequestBody KioskRequest kioskRequest) {
         return ResponseEntity.ok(kioskService.confirmVisit(reservationId, kioskRequest));
