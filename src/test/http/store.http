@@ -1,22 +1,22 @@
 ### regist store
 POST http://localhost:8080/store/regist
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcHBsZSIsIm1lbWJlclR5cGUiOiJST0xFX1BBUlRORVIiLCJpYXQiOjE2OTg0NjUxNzQsImV4cCI6MTY5ODQ2ODc3NH0.jIZ9G_nIuBQPtviUOUuAijJ-dA4XVdbO-59S68YhFb4cakKCk9J-ISZ1nZPALEDxX4qDLDqhQzjvcqVUQaw26Q
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvcmFuZ2UiLCJtZW1iZXJUeXBlIjoiUk9MRV9QQVJUTkVSIiwiaWF0IjoxNjk4NTQ5Njc2LCJleHAiOjE2OTg1NTMyNzZ9.Okrkmk0_d7dIHjR62oEWu16jXZd8bcSF7X38tcv18jDil4T2rq2xXDbBPP2VqKGouzYlHdWszXAvbSSb5gOCdQ
 
 {
-    "name": "기사식당",
-    "address": "경기도 이천시",
-    "description": "불백은 진리",
-    "contact": "031-123-9082",
-    "open": "09:00:00",
-    "close": "17:00:00"
+    "name": "기차타고",
+    "address": "경기도 용인시 수지구 성복동",
+    "description": "기차를 테마로 한 맛집",
+    "contact": "031-234-1234",
+    "open": "10:00:00",
+    "close": "20:00:00"
 }
 
 ### search store
 GET http://localhost:8080/store/search?name=동
 
 ### get stores
-GET http://localhost:8080/store/list?orderBy=rating
+GET http://localhost:8080/store/list?orderBy=review
 
 ### get store details
-GET http://localhost:8080/store/details/9
+GET http://localhost:8080/store/details/2

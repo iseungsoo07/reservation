@@ -29,6 +29,8 @@ public class Reservation {
     @JoinColumn(name = "store_id")
     private Store store;
 
+    private boolean visitYn;
+
     private LocalDateTime reservationDate;
 
     @Enumerated(EnumType.STRING)
@@ -38,4 +40,7 @@ public class Reservation {
         this.reservationStatus = reservationStatus;
     }
 
+    public void updateVisitYn(boolean visit) {
+        this.visitYn = visit;
+    }
 }

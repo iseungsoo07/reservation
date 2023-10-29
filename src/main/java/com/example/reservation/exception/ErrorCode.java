@@ -25,7 +25,12 @@ public enum ErrorCode {
     // 예약 관련
     SERVICE_ONLY_FOR_OWNER("해당 매장의 점장만 이용가능한 서비스입니다."),
     NOT_FOUND_RESERVATION("예약 정보가 없습니다."),
-    ALREADY_RESERVED_TIME("이미 예약이 된 시간입니다. 다른 시간을 선택해주세요.");
+    ALREADY_RESERVED_TIME("이미 예약이 된 시간입니다. 다른 시간을 선택해주세요."),
+    NOT_APPROVED_RESERVATION("승인된 예약이 아닙니다."),
+    UNMATCH_RESERVED_INFORMATION("예약자 정보 불일치"),
+    ARRIVE_TOO_EARLY("아직 예약시간 10분전이 아닙니다."),
+    ARRIVE_TOO_LATE("예약시간 10분전이 지났습니다."),
+    ALREADY_VISITED_RESERVATION("이미 방문처리된 예약입니다.");
 
     private final String description;
 }

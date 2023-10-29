@@ -34,7 +34,6 @@ public class Store {
     private LocalTime close;
 
     @Builder.Default
-    @Column(columnDefinition = "default 0.0")
     private Double rating = 0.0;
 
     @OneToMany(mappedBy = "store")

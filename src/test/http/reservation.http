@@ -1,10 +1,10 @@
 ### reserve store
-POST http://localhost:8080/reservation/10
+POST http://localhost:8080/reservation/2
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvcmFuZ2UiLCJtZW1iZXJUeXBlIjoiUk9MRV9VU0VSIiwiaWF0IjoxNjk4MjEzNDIxLCJleHAiOjE2OTgyMTcwMjF9.44MLGujK5zjHdKGmkAVe-QhQ70mpTkTIQPGTMK7YVA_DbpcobDgB7K0zohblLCkGltpkbDiHs5Fs_Eko7qSTow
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdm9jYWRvIiwibWVtYmVyVHlwZSI6IlJPTEVfVVNFUiIsImlhdCI6MTY5ODU0OTk4OSwiZXhwIjoxNjk4NTUzNTg5fQ.Qvs1BtLDORuj4INLXCKj95AdA9xLkRDPmx9bDxE3EawzqYH9pE1Ndn5lv_gCx9HeODhl61ZbN_s13qoN7ighsQ
 
 {
-    "reservationDate": "2023-10-23T12:00:00"
+    "reservationDate": "2023-10-29T13:30:00"
 }
 
 ### get reservationList (User)
@@ -12,14 +12,14 @@ GET http://localhost:8080/reservation/list
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiYW5hbmEiLCJtZW1iZXJUeXBlIjoiUk9MRV9VU0VSIiwiaWF0IjoxNjk4MjEyMDY5LCJleHAiOjE2OTgyMTU2Njl9.bUm_WQ_kCTfyIWnccPRKI1O73Ia3UBPs7V783VqgvEvgdR8QdAL3u8ABn9PNGuSgNYl2XHpB7Vu5JOFxcJOK1A
 
 ### get reseravtionList (Partner)
-GET http://localhost:8080/reservation/list/7?date=2023-10-23
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtZWxvbiIsIm1lbWJlclR5cGUiOiJST0xFX1BBUlRORVIiLCJpYXQiOjE2OTgyMTQ5NDQsImV4cCI6MTY5ODIxODU0NH0.25OmK4TMq0VgfMPPQ40Sn50ZfH5OpP4NMNuRaLHCRL25WHRc4onKa2s2EgpcCMHoYNnTtQ4E0khDNDEfHpfk5Q
+GET http://localhost:8080/reservation/list/2?date=2023-10-29
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcHBsZSIsIm1lbWJlclR5cGUiOiJST0xFX1BBUlRORVIiLCJpYXQiOjE2OTg1NTAwMjgsImV4cCI6MTY5ODU1MzYyOH0.GxLT6pqL0TJIOj83QFHS6ZMJ9N9dmY4fTTdEKCHcIfT0WswN5DW51gAirD6ushKdaVVj26zkYVxeSWl89DvhQw
 
 ### approve reservation
-PATCH http://localhost:8080/reservation/approval/5
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVycnkiLCJtZW1iZXJUeXBlIjoiUk9MRV9QQVJUTkVSIiwiaWF0IjoxNjk4MjEzNTgyLCJleHAiOjE2OTgyMTcxODJ9.CtZEXjcEwaM4b36wpM-_cJIq9hWW_dcPOVxPB_QIQIdvAVVxbBHgGCMwNPcwSjUIfEf2MFQbfIOewwByWaEA_w
+PATCH http://localhost:8080/reservation/approval/3
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcHBsZSIsIm1lbWJlclR5cGUiOiJST0xFX1BBUlRORVIiLCJpYXQiOjE2OTg1NTAwMjgsImV4cCI6MTY5ODU1MzYyOH0.GxLT6pqL0TJIOj83QFHS6ZMJ9N9dmY4fTTdEKCHcIfT0WswN5DW51gAirD6ushKdaVVj26zkYVxeSWl89DvhQw
 
 
-### approve reservation
+### refuse reservation
 PATCH http://localhost:8080/reservation/refusal/3
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtZWxvbiIsIm1lbWJlclR5cGUiOiJST0xFX1BBUlRORVIiLCJpYXQiOjE2OTgyMTQ5NDQsImV4cCI6MTY5ODIxODU0NH0.25OmK4TMq0VgfMPPQ40Sn50ZfH5OpP4NMNuRaLHCRL25WHRc4onKa2s2EgpcCMHoYNnTtQ4E0khDNDEfHpfk5Q
