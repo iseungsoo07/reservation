@@ -33,6 +33,7 @@ public class StoreController {
     @PostMapping("/regist")
     public ResponseEntity<?> addStore(@RequestBody StoreRequest storeRequest) {
         UserDetails userDetails = LoginCheckUtils.loginCheck();
+        String userId = userDetails.getUsername();
 
         if (userDetails.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_PARTNER"))) {
             throw new ReservationException(ONLY_FOR_PARTNER);
@@ -44,10 +45,42 @@ public class StoreController {
     }
 
     /**
+     * 매장 정보 수정
+     */
+    @PutMapping("/modify/{storeId}")
+    public ResponseEntity<?> modifyStore(@PathVariable Long storeId, @RequestBody StoreRequest storeRequest) {
+        UserDetails userDetails = LoginCheckUtils.loginCheck();
+        String userId = userDetails.getUsername();
+
+        if (userDetails.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_PARTNER"))) {
+            throw new ReservationException(ONLY_FOR_PARTNER);
+        }
+
+        StoreResponse storeResponse = storeService.modifyStore(storeRequest, storeId, userId);
+
+        return ResponseEntity.ok(storeResponse);
+    }
+
+    @DeleteMapping("/delete/{storeId}")
+    public ResponseEntity<?> deleteStore(@PathVariable Long storeId) {
+        UserDetails userDetails = LoginCheckUtils.loginCheck();
+        String userId = userDetails.getUsername();
+
+        if (userDetails.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_PARTNER"))) {
+            throw new ReservationException(ONLY_FOR_PARTNER);
+        }
+
+        storeService.deleteStore(storeId, userId);
+
+        return ResponseEntity.ok().build();
+    }
+
+    /**
      * 모든 매장 정보를 가져온다.
      * 쿼리 파라미터로 orderBy 를 입력받아 입력받은 값을 기준으로 정렬한다.
      */
     @GetMapping("/list")
+
     public ResponseEntity<?> getStores(@RequestParam(required = false, defaultValue = "name") String orderBy,
                                        Pageable pageable) {
         return getStoresByQueryParam(orderBy, pageable);

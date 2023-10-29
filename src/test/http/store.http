@@ -1,16 +1,35 @@
 ### regist store
 POST http://localhost:8080/store/regist
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvcmFuZ2UiLCJtZW1iZXJUeXBlIjoiUk9MRV9QQVJUTkVSIiwiaWF0IjoxNjk4NTQ5Njc2LCJleHAiOjE2OTg1NTMyNzZ9.Okrkmk0_d7dIHjR62oEWu16jXZd8bcSF7X38tcv18jDil4T2rq2xXDbBPP2VqKGouzYlHdWszXAvbSSb5gOCdQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcHBsZSIsIm1lbWJlclR5cGUiOiJST0xFX1BBUlRORVIiLCJpYXQiOjE2OTg1NjM3NjYsImV4cCI6MTY5ODU2NzM2Nn0.7LEaTDOxiEleHeCfujgsfzuuu4MvHMT2HmEz88KAStXPEQXzr-z4N4MjnUx3unh5iYCGeABI3dalfX3pYaydRg
 
 {
-    "name": "기차타고",
+    "name": "ㅁㄴㅇㄹㅁㄴㅇ",
     "address": "경기도 용인시 수지구 성복동",
     "description": "기차를 테마로 한 맛집",
+    "contact": "031-453-1234",
+    "open": "10:00:00",
+    "close": "20:00:00"
+}
+
+### modify store
+PUT http://localhost:8080/store/modify/2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcHBsZSIsIm1lbWJlclR5cGUiOiJST0xFX1BBUlRORVIiLCJpYXQiOjE2OTg1NjMzNDEsImV4cCI6MTY5ODU2Njk0MX0.-QI6cT8tcs9DY2veZTLdeH247g0fuAix762OsDxwybBFLGmOjE9YIba3r29zgev3zeaH04j_6snZhhZH_YPFUw
+
+{
+    "name": "기사식당",
+    "address": "경기도 용인시 수지구 동천동",
+    "description": "불백 맛집",
     "contact": "031-234-1234",
     "open": "10:00:00",
     "close": "20:00:00"
 }
+
+### delete store
+DELETE http://localhost:8080/store/delete/8
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcHBsZSIsIm1lbWJlclR5cGUiOiJST0xFX1BBUlRORVIiLCJpYXQiOjE2OTg1NjM3NjYsImV4cCI6MTY5ODU2NzM2Nn0.7LEaTDOxiEleHeCfujgsfzuuu4MvHMT2HmEz88KAStXPEQXzr-z4N4MjnUx3unh5iYCGeABI3dalfX3pYaydRg
+
 
 ### search store
 GET http://localhost:8080/store/search?name=동

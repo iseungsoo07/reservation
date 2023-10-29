@@ -10,6 +10,10 @@ import java.util.List;
 public interface StoreService {
     StoreResponse addStore(StoreRequest storeRequest, String userId);
 
+    StoreResponse modifyStore(StoreRequest storeRequest, Long storeId, String userId);
+
+    void deleteStore(Long storeId, String userId);
+
     Page<StoreResponse> getStoresOrderByName(Pageable pageable);
 
     Page<StoreResponse> getStoresOrderByRating(Pageable pageable);
@@ -19,4 +23,6 @@ public interface StoreService {
     List<StoreResponse> searchStore(String prefix);
 
     StoreResponse getStoreDetails(Long id);
+
+
 }

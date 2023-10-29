@@ -21,9 +21,9 @@ public enum ErrorCode {
     // 매장 관련
     NOT_FOUND_STORE("매장 정보가 없습니다."),
     ALREADY_EXISTS_STORE("이미 등록되어 있는 매장입니다."),
+    SERVICE_ONLY_FOR_OWNER("해당 매장의 점장만 이용가능한 서비스입니다."),
 
     // 예약 관련
-    SERVICE_ONLY_FOR_OWNER("해당 매장의 점장만 이용가능한 서비스입니다."),
     NOT_FOUND_RESERVATION("예약 정보가 없습니다."),
     ALREADY_RESERVED_TIME("이미 예약이 된 시간입니다. 다른 시간을 선택해주세요."),
     NOT_APPROVED_RESERVATION("승인된 예약이 아닙니다."),

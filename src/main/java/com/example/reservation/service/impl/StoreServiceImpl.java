@@ -18,6 +18,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.example.reservation.exception.ErrorCode.NOT_FOUND_STORE;
+import static com.example.reservation.exception.ErrorCode.SERVICE_ONLY_FOR_OWNER;
 
 @Service
 @RequiredArgsConstructor
@@ -54,6 +55,44 @@ public class StoreServiceImpl implements StoreService {
         Store savedStore = storeRepository.save(store);
 
         return StoreResponse.of(savedStore);
+    }
+
+    /**
+     * 매장 정보 수정
+     * 로그인 된 사용자 아이디와 매장의 점장을 비교해서 사용자 소유 매장일 경우 정보 변경
+     */
+    @Override
+    public StoreResponse modifyStore(StoreRequest storeRequest, Long storeId, String userId) {
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new ReservationException(NOT_FOUND_STORE));
+
+        // 점장과 로그인 한 사용자 아이디를 비교, 다르면 소유한 매장이 아니므로 예외 발생
+        validateOwnerAndUser(store.getOwner(), userId);
+
+        // 매장 정보 수정
+        store.updateStore(storeRequest);
+        Store savedStore = storeRepository.save(store);
+
+        return StoreResponse.of(savedStore);
+    }
+
+    /**
+     * 매장 삭제
+     */
+    @Override
+    public void deleteStore(Long storeId, String userId) {
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new ReservationException(NOT_FOUND_STORE));
+
+        validateOwnerAndUser(store.getOwner(), userId);
+
+        storeRepository.delete(store);
+    }
+
+    private void validateOwnerAndUser(String ownerId, String userId) {
+        if (!ownerId.equals(userId)) {
+            throw new ReservationException(SERVICE_ONLY_FOR_OWNER);
+        }
     }
 
     /**

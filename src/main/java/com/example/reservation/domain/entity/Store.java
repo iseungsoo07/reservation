@@ -1,5 +1,6 @@
 package com.example.reservation.domain.entity;
 
+import com.example.reservation.domain.model.StoreRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -47,6 +48,15 @@ public class Store {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    public void updateStore(StoreRequest storeRequest) {
+        this.name = storeRequest.getName();
+        this.address = storeRequest.getAddress();
+        this.description = storeRequest.getDescription();
+        this.contact = storeRequest.getContact();
+        this.open = storeRequest.getOpen();
+        this.close = storeRequest.getClose();
+    }
 
     public void updateRating(double rating) {
         double totalRating = reviews.stream()
