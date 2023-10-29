@@ -31,14 +31,19 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
                 .orElseThrow(() -> new ReservationException(NOT_FOUND_MEMBER));
     }
 
+    /**
+     * 정보를 입력받아 회원가입 진행
+     */
     @Override
     public SignUpResponse signUp(SignUpRequest signUpRequest) {
         boolean exists = memberRepository.existsByUserId(signUpRequest.getUserId());
 
+        // 입력받은 아이디가 이미 존재하면 예외 발생
         if (exists) {
             throw new ReservationException(ErrorCode.ALREADY_USING_ID);
         }
 
+        // 비밀번호는 암호화해서 저장
         signUpRequest.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
 
         memberRepository.save(signUpRequest.toEntity());
@@ -52,6 +57,10 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
                 .build();
     }
 
+    /**
+     * 로그인
+     * 입력받은 아이디와 비밀번호를 통해 사용자를 리턴한다.
+     */
     @Override
     public Member authenticate(SignInRequest signInRequest) {
         Member member = memberRepository.findByUserId(signInRequest.getUserId())

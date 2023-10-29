@@ -33,8 +33,9 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
 
     /**
-     * 로그인 된 회원이 이용내역을 볼 수 있고
+     * 로그인 된 회원이 이용내역을 볼 수 있고 (마이페이지 느낌)
      * 그 이용 내역을 볼 수 있는 화면에서 각 내역에 대한 리뷰를 작성할 수 있도록 함
+     * 한 번 리뷰를 작성한 예약 내역에 대해서는 다시 작성할 수 없도록 한다. (매장 평점 조작 방지)
      */
     @Override
     public ReviewResponse addReview(Long reservationId, ReviewRequest reviewRequest) {
@@ -57,24 +58,32 @@ public class ReviewServiceImpl implements ReviewService {
                 .reservation(reservation)
                 .build());
 
+        // 매장의 평점 정보를 업데이트
         store.updateRating(reviewRequest.getRating());
         storeRepository.save(store);
 
+        // 예약 상태를 리뷰 완료 상태로 변경
         reservation.updateStatus(REVIEWED);
         reservationRepository.save(reservation);
 
         return ReviewResponse.fromEntity(savedReview);
     }
 
+    /**
+     * 입력받은 값에 대한 유효성 검증 로직
+     */
     private static void validateReservation(ReviewRequest reviewRequest, Reservation reservation) {
+        // 예약 상태가 리뷰 완료 상태라면 예외 발생
         if (reservation.getReservationStatus() == REVIEWED) {
             throw new ReservationException(ErrorCode.ALREADY_REVIEWED_RESERVATION);
         }
 
+        // 예약 상태가 승인 상태가 아니거나, 방문처리된 상태가 아니면 예외 발생
         if (!reservation.isVisitYn() || reservation.getReservationStatus() != APPROVAL) {
             throw new ReservationException(ErrorCode.NOT_USED_RESERVATION);
         }
 
+        // 예약 정보와 입력받은 사용자 아이디, 매장 아이디가 일치하지 않으면 예외 발생
         if (!Objects.equals(reservation.getMember().getUserId(), reviewRequest.getUserId())
                 || !Objects.equals(reservation.getStore().getId(), reviewRequest.getStoreId())) {
             throw new ReservationException(ErrorCode.UNMATCH_RESERVED_INFORMATION);

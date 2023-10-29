@@ -38,7 +38,7 @@ public class StoreController {
             throw new ReservationException(ONLY_FOR_PARTNER);
         }
 
-        StoreResponse storeResponse = storeService.addStore(storeRequest);
+        StoreResponse storeResponse = storeService.addStore(storeRequest, userId);
 
         return ResponseEntity.ok(storeResponse);
     }
