@@ -7,6 +7,14 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtZWxvbiIsIm1lbWJlclR5cGUiO
     "reservationDate": "2023-10-29T22:44:00"
 }
 
+### update reservation
+PATCH http://localhost:8080/reservation/update/1
+Content-Type: application/json
+
+{
+    "reservationDate": "2023-10-30T16:30:00"
+}
+
 ### cancle reservation
 DELETE http://localhost:8080/reservation/cancel/5
 

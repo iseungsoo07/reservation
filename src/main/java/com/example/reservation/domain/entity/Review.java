@@ -43,4 +43,9 @@ public class Review {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    public void updateReivew(String content, Double rating) {
+        this.content = content;
+        this.rating = rating;
+    }
 }

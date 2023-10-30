@@ -58,7 +58,7 @@ public class Store {
         this.close = storeRequest.getClose();
     }
 
-    public void updateRating(double rating) {
+    public void updateRating() {
         double totalRating = reviews.stream()
                 .mapToDouble(Review::getRating)
                 .sum();

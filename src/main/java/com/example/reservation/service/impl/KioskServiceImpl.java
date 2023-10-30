@@ -22,6 +22,8 @@ public class KioskServiceImpl implements KioskService {
 
     /**
      * 예약 10분전에 도착하여 키오스크를 통해서 방문확인을 진행
+     * 키오스크 화면에는 사용자 아이디, 이름, 휴대폰 번호를 입력하도록 하고
+     * 입력받은 값들을 가지고 예약 확인을 진행한다.
      */
     @Override
     public MessageResponse confirmVisit(Long reservationId, KioskRequest kioskRequest) {

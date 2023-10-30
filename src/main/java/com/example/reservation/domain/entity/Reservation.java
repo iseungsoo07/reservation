@@ -36,6 +36,11 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     private ReservationStatus reservationStatus;
 
+    public void updateReservation(LocalDateTime reservationDate) {
+        this.reservationDate = reservationDate;
+        this.reservationStatus = ReservationStatus.WAITING;
+    }
+
     public void updateStatus(ReservationStatus reservationStatus) {
         this.reservationStatus = reservationStatus;
     }

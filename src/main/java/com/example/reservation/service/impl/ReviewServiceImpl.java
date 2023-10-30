@@ -1,11 +1,13 @@
 package com.example.reservation.service.impl;
 
-import com.example.reservation.domain.model.ReviewRequest;
 import com.example.reservation.domain.entity.Member;
 import com.example.reservation.domain.entity.Reservation;
 import com.example.reservation.domain.entity.Review;
 import com.example.reservation.domain.entity.Store;
+import com.example.reservation.domain.model.MessageResponse;
+import com.example.reservation.domain.model.ReviewRequest;
 import com.example.reservation.domain.model.ReviewResponse;
+import com.example.reservation.domain.model.ReviewUpdateRequest;
 import com.example.reservation.exception.ErrorCode;
 import com.example.reservation.exception.ReservationException;
 import com.example.reservation.repository.MemberRepository;
@@ -20,6 +22,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static com.example.reservation.exception.ErrorCode.NOT_FOUND_REVIEW;
+import static com.example.reservation.exception.ErrorCode.UNMATCH_REVIEW_USER;
 import static com.example.reservation.type.ReservationStatus.APPROVAL;
 import static com.example.reservation.type.ReservationStatus.REVIEWED;
 
@@ -38,7 +42,7 @@ public class ReviewServiceImpl implements ReviewService {
      * 한 번 리뷰를 작성한 예약 내역에 대해서는 다시 작성할 수 없도록 한다. (매장 평점 조작 방지)
      */
     @Override
-    public ReviewResponse addReview(Long reservationId, ReviewRequest reviewRequest) {
+    public ReviewResponse addReview(Long reservationId, ReviewRequest reviewRequest, String userId) {
         Member member = memberRepository.findByUserId(reviewRequest.getUserId())
                 .orElseThrow(() -> new ReservationException(ErrorCode.NOT_FOUND_MEMBER));
 
@@ -48,7 +52,7 @@ public class ReviewServiceImpl implements ReviewService {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new ReservationException(ErrorCode.NOT_FOUND_RESERVATION));
 
-        validateReservation(reviewRequest, reservation);
+        validateReservation(reviewRequest, reservation, userId);
 
         Review savedReview = reviewRepository.save(Review.builder()
                 .member(member)
@@ -59,7 +63,7 @@ public class ReviewServiceImpl implements ReviewService {
                 .build());
 
         // 매장의 평점 정보를 업데이트
-        store.updateRating(reviewRequest.getRating());
+        store.updateRating();
         storeRepository.save(store);
 
         // 예약 상태를 리뷰 완료 상태로 변경
@@ -72,7 +76,11 @@ public class ReviewServiceImpl implements ReviewService {
     /**
      * 입력받은 값에 대한 유효성 검증 로직
      */
-    private static void validateReservation(ReviewRequest reviewRequest, Reservation reservation) {
+    private static void validateReservation(ReviewRequest reviewRequest, Reservation reservation, String userId) {
+        if (!Objects.equals(reservation.getMember().getUserId(), userId)) {
+            throw new ReservationException(ErrorCode.UNMATCH_RESERVATION_USER);
+        }
+
         // 예약 상태가 리뷰 완료 상태라면 예외 발생
         if (reservation.getReservationStatus() == REVIEWED) {
             throw new ReservationException(ErrorCode.ALREADY_REVIEWED_RESERVATION);
@@ -89,6 +97,57 @@ public class ReviewServiceImpl implements ReviewService {
             throw new ReservationException(ErrorCode.UNMATCH_RESERVED_INFORMATION);
         }
     }
+
+    /**
+     * 리뷰 수정
+     * 내용과 평점을 변경할 수 있음
+     */
+    @Override
+    public ReviewResponse updateReview(Long reviewId, ReviewUpdateRequest reviewUpdateRequest, String userId) {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new ReservationException(ErrorCode.NOT_FOUND_REVIEW));
+
+        if (!Objects.equals(review.getMember().getUserId(), userId)) {
+            throw new ReservationException(UNMATCH_REVIEW_USER);
+        }
+
+        review.updateReivew(reviewUpdateRequest.getContent(), reviewUpdateRequest.getRating());
+
+        reviewRepository.save(review);
+
+        review.getStore().updateRating();
+        storeRepository.save(review.getStore());
+
+        return ReviewResponse.builder()
+                .userId(review.getMember().getUserId())
+                .storeName(review.getStore().getName())
+                .content(review.getContent())
+                .rating(review.getRating())
+                .build();
+    }
+
+    /**
+     * 리뷰 삭제
+     */
+    @Override
+    public MessageResponse deleteReview(Long reviewId, String userId) {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new ReservationException(NOT_FOUND_REVIEW));
+
+        if (!Objects.equals(review.getMember().getUserId(), userId)) {
+            throw new ReservationException(UNMATCH_REVIEW_USER);
+        }
+
+        reviewRepository.delete(review);
+        review.getStore().updateRating();
+
+        storeRepository.save(review.getStore());
+
+        return MessageResponse.builder()
+                .message("리뷰 삭제 완료!")
+                .build();
+    }
+
 
     /**
      * 매장 아이디를 통해 매장을 찾고,

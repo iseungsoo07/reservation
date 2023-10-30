@@ -1,10 +1,12 @@
 package com.example.reservation.controller;
 
 import com.example.reservation.domain.model.ReviewRequest;
+import com.example.reservation.domain.model.ReviewUpdateRequest;
 import com.example.reservation.service.ReviewService;
 import com.example.reservation.utils.LoginCheckUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,9 +24,32 @@ public class ReviewController {
      */
     @PostMapping("/{reservationId}")
     public ResponseEntity<?> addReview(@PathVariable Long reservationId, @Valid @RequestBody ReviewRequest reviewRequest) {
-        LoginCheckUtils.loginCheck();
+        UserDetails userDetails = LoginCheckUtils.loginCheck();
+        String userId = userDetails.getUsername();
 
-        return ResponseEntity.ok(reviewService.addReview(reservationId, reviewRequest));
+        return ResponseEntity.ok(reviewService.addReview(reservationId, reviewRequest, userId));
+    }
+
+    /**
+     * 리뷰 수정
+     */
+    @PutMapping("/update/{reviewId}")
+    public ResponseEntity<?> updateReview(@PathVariable Long reviewId, @RequestBody ReviewUpdateRequest reviewUpdateRequest) {
+        UserDetails userDetails = LoginCheckUtils.loginCheck();
+        String userId = userDetails.getUsername();
+
+        return ResponseEntity.ok(reviewService.updateReview(reviewId, reviewUpdateRequest, userId));
+    }
+
+    /**
+     * 리뷰 삭제
+     */
+    @DeleteMapping("/delete/{reviewId}")
+    public ResponseEntity<?> deleteReview(@PathVariable Long reviewId) {
+        UserDetails userDetails = LoginCheckUtils.loginCheck();
+        String userId = userDetails.getUsername();
+
+        return ResponseEntity.ok(reviewService.deleteReview(reviewId, userId));
     }
 
     /**

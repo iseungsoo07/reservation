@@ -12,7 +12,9 @@ import java.time.LocalDate;
 public interface ReservationService {
     ReservationResponse reserveStore(Long id, String userId, ReservationRequest reservationRequest);
 
-    MessageResponse cancelReservation(Long reservationId);
+    ReservationResponse updateReservation(Long reservationId, ReservationRequest reservationRequest, String userId);
+
+    MessageResponse cancelReservation(Long reservationId, String userId);
 
     Page<ReservationResponse> getReservationListForUser(String userId, Pageable pageable);
 

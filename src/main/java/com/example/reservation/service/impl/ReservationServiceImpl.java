@@ -71,21 +71,60 @@ public class ReservationServiceImpl implements ReservationService {
                 .build();
     }
 
+
     /**
      * 예약 수정
+     * 예약 상태가 REVIEWED인 경우에는 수정이 불가능하도록 한다.
      */
+    @Override
+    public ReservationResponse updateReservation(Long reservationId, ReservationRequest reservationRequest, String userId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new ReservationException(NOT_FOUND_RESERVATION));
+
+        if (!Objects.equals(reservation.getMember().getUserId(), userId)) {
+            throw new ReservationException(UNMATCH_RESERVATION_USER);
+        }
+
+        if (reservation.getReservationStatus() == REVIEWED) {
+            throw new ReservationException(CANNOT_UPDATE_RESERVATION);
+        }
+
+        Optional<Reservation> reservationOptional
+                = reservationRepository.findByStoreAndReservationDate(reservation.getStore(), reservationRequest.getReservationDate());
+
+        // 한 매장의 같은 시간에 예약이 있다면 예외 발생
+        if (reservationOptional.isPresent()) {
+            throw new ReservationException(ALREADY_RESERVED_TIME);
+        }
+
+        // 변경된 시간으로 예약을 변경하고 상태를 다시 대기상태로 바꾼다.
+        reservation.updateReservation(reservationRequest.getReservationDate());
+
+        reservationRepository.save(reservation);
+
+        return ReservationResponse.builder()
+                .storeName(reservation.getStore().getName())
+                .memberName(reservation.getMember().getName())
+                .address(reservation.getStore().getAddress())
+                .contact(reservation.getStore().getContact())
+                .reservationDate(reservationRequest.getReservationDate())
+                .reservationStatus(WAITING)
+                .build();
+    }
 
 
     /**
      * 매장 예약 취소
      * 정책상 예약시간 30분전 이후부터는 취소가 불가능 하도록 한다.
-     * 예약 리스트에서 예약 내역을 보고 취소를 하기 때문에
-     * 로그인하지 않은 경우를 생각하지 않음
      */
     @Override
-    public MessageResponse cancelReservation(Long reservationId) {
+    public MessageResponse cancelReservation(Long reservationId, String userId) {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new ReservationException(NOT_FOUND_RESERVATION));
+
+        if (!Objects.equals(reservation.getMember().getUserId(), userId)) {
+            throw new ReservationException(UNMATCH_RESERVATION_USER);
+        }
 
         LocalDateTime now = LocalDateTime.now();
 
