@@ -47,7 +47,7 @@ public class StoreController {
     /**
      * 매장 정보 수정
      */
-    @PutMapping("/modify/{storeId}")
+    @PutMapping("/{storeId}")
     public ResponseEntity<?> modifyStore(@PathVariable Long storeId, @RequestBody StoreRequest storeRequest) {
         UserDetails userDetails = LoginCheckUtils.loginCheck();
         String userId = userDetails.getUsername();
@@ -64,7 +64,7 @@ public class StoreController {
     /**
      * 매장 삭제
      */
-    @DeleteMapping("/delete/{storeId}")
+    @DeleteMapping("/{storeId}")
     public ResponseEntity<?> deleteStore(@PathVariable Long storeId) {
         UserDetails userDetails = LoginCheckUtils.loginCheck();
         String userId = userDetails.getUsername();

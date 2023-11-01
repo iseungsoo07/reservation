@@ -13,7 +13,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmMiLCJtZW1iZXJUeXBlIjoiU
 }
 
 ### modify store
-PUT http://localhost:8080/store/modify/2
+PUT http://localhost:8080/store/2
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcHBsZSIsIm1lbWJlclR5cGUiOiJST0xFX1BBUlRORVIiLCJpYXQiOjE2OTg1NjMzNDEsImV4cCI6MTY5ODU2Njk0MX0.-QI6cT8tcs9DY2veZTLdeH247g0fuAix762OsDxwybBFLGmOjE9YIba3r29zgev3zeaH04j_6snZhhZH_YPFUw
 
@@ -27,7 +27,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcHBsZSIsIm1lbWJlclR5cGUiO
 }
 
 ### delete store
-DELETE http://localhost:8080/store/delete/9
+DELETE http://localhost:8080/store/9
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmMiLCJtZW1iZXJUeXBlIjoiUk9MRV9QQVJUTkVSIiwiaWF0IjoxNjk4NTg1NzYxLCJleHAiOjE2OTg1ODkzNjF9.2c8xW3TmFCRwdj3F2cWVo8qS1g798CssDNz5i7yzkStbZdR1tUcn4eQMLubMlySMIjTS8Og0yOs94i14vbhoVw
 
 

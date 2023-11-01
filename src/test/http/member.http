@@ -20,4 +20,4 @@ Content-Type: application/json
 }
 
 ### delete member
-DELETE http://localhost:8080/user/delete/9
+DELETE http://localhost:8080/user/9

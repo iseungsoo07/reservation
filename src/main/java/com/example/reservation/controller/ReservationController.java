@@ -43,7 +43,7 @@ public class ReservationController {
      * 예약 수정
      * 예약 리스트에서 예약 내역을 보고 수정을 하도록 한다.
      */
-    @PatchMapping("/update/{reservationId}")
+    @PatchMapping("/{reservationId}")
     public ResponseEntity<?> updateReservation(@PathVariable Long reservationId, @RequestBody ReservationRequest reservationRequest) {
         UserDetails userDetails = LoginCheckUtils.loginCheck();
         String userId = userDetails.getUsername();
@@ -56,7 +56,7 @@ public class ReservationController {
      * 예약 리스트에서 예약 내역을 보고 취소를 하기 때문에
      * 로그인하지 않은 경우를 생각하지 않음
      */
-    @DeleteMapping("/cancel/{reservationId}")
+    @DeleteMapping("/{reservationId}")
     public ResponseEntity<?> cancelReservation(@PathVariable Long reservationId) {
         UserDetails userDetails = LoginCheckUtils.loginCheck();
         String userId = userDetails.getUsername();

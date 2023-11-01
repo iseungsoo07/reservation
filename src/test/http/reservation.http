@@ -8,7 +8,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtZWxvbiIsIm1lbWJlclR5cGUiO
 }
 
 ### update reservation
-PATCH http://localhost:8080/reservation/update/1
+PATCH http://localhost:8080/reservation/1
 Content-Type: application/json
 
 {
@@ -16,7 +16,7 @@ Content-Type: application/json
 }
 
 ### cancle reservation
-DELETE http://localhost:8080/reservation/cancel/5
+DELETE http://localhost:8080/reservation/5
 
 ### get reservationList (User)
 GET http://localhost:8080/reservation/list

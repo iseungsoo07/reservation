@@ -33,7 +33,7 @@ public class ReviewController {
     /**
      * 리뷰 수정
      */
-    @PutMapping("/update/{reviewId}")
+    @PutMapping("/{reviewId}")
     public ResponseEntity<?> updateReview(@PathVariable Long reviewId, @RequestBody ReviewUpdateRequest reviewUpdateRequest) {
         UserDetails userDetails = LoginCheckUtils.loginCheck();
         String userId = userDetails.getUsername();
@@ -44,7 +44,7 @@ public class ReviewController {
     /**
      * 리뷰 삭제
      */
-    @DeleteMapping("/delete/{reviewId}")
+    @DeleteMapping("/{reviewId}")
     public ResponseEntity<?> deleteReview(@PathVariable Long reviewId) {
         UserDetails userDetails = LoginCheckUtils.loginCheck();
         String userId = userDetails.getUsername();

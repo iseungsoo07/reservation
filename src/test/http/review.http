@@ -11,7 +11,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtZWxvbiIsIm1lbWJlclR5cGUiO
 }
 
 ### update review
-PUT http://localhost:8080/review/update/10
+PUT http://localhost:8080/review/10
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtZWxvbiIsIm1lbWJlclR5cGUiOiJST0xFX1VTRVIiLCJpYXQiOjE2OTg2Mzc2MzksImV4cCI6MTY5ODY0MTIzOX0.Q3eUpkIU8bA5LXADgCYeN3VtpG1m1jVBjSiNZLxPL3FI8PTLO0n7cd0_X8Zp9qFVk9GFSzGvTk1kIHrQ8Ds-aA
 
