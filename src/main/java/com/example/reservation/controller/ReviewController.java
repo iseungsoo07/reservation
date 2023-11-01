@@ -3,10 +3,8 @@ package com.example.reservation.controller;
 import com.example.reservation.domain.model.ReviewRequest;
 import com.example.reservation.domain.model.ReviewUpdateRequest;
 import com.example.reservation.service.ReviewService;
-import com.example.reservation.utils.LoginCheckUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,10 +22,7 @@ public class ReviewController {
      */
     @PostMapping("/{reservationId}")
     public ResponseEntity<?> addReview(@PathVariable Long reservationId, @Valid @RequestBody ReviewRequest reviewRequest) {
-        UserDetails userDetails = LoginCheckUtils.loginCheck();
-        String userId = userDetails.getUsername();
-
-        return ResponseEntity.ok(reviewService.addReview(reservationId, reviewRequest, userId));
+        return ResponseEntity.ok(reviewService.addReview(reservationId, reviewRequest));
     }
 
     /**
@@ -35,10 +30,7 @@ public class ReviewController {
      */
     @PutMapping("/{reviewId}")
     public ResponseEntity<?> updateReview(@PathVariable Long reviewId, @RequestBody ReviewUpdateRequest reviewUpdateRequest) {
-        UserDetails userDetails = LoginCheckUtils.loginCheck();
-        String userId = userDetails.getUsername();
-
-        return ResponseEntity.ok(reviewService.updateReview(reviewId, reviewUpdateRequest, userId));
+        return ResponseEntity.ok(reviewService.updateReview(reviewId, reviewUpdateRequest));
     }
 
     /**
@@ -46,10 +38,7 @@ public class ReviewController {
      */
     @DeleteMapping("/{reviewId}")
     public ResponseEntity<?> deleteReview(@PathVariable Long reviewId) {
-        UserDetails userDetails = LoginCheckUtils.loginCheck();
-        String userId = userDetails.getUsername();
-
-        return ResponseEntity.ok(reviewService.deleteReview(reviewId, userId));
+        return ResponseEntity.ok(reviewService.deleteReview(reviewId));
     }
 
     /**

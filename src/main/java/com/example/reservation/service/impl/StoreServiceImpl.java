@@ -8,6 +8,7 @@ import com.example.reservation.exception.ErrorCode;
 import com.example.reservation.exception.ReservationException;
 import com.example.reservation.repository.StoreRepository;
 import com.example.reservation.service.StoreService;
+import com.example.reservation.utils.LoginCheckUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -33,7 +34,14 @@ public class StoreServiceImpl implements StoreService {
      * 로그인된 파트너 권한을 가진 사용자의 아이디를 사용
      */
     @Override
-    public StoreResponse addStore(StoreRequest storeRequest, String userId) {
+    public StoreResponse addStore(StoreRequest storeRequest) {
+        List<String> authorities = LoginCheckUtils.getAuthorities();
+        String userId = LoginCheckUtils.getUserId();
+
+        if (!authorities.contains("ROLE_PARTNER")) {
+            throw new ReservationException(ONLY_FOR_PARTNER);
+        }
+
         // 주소와 연락처가 같으면 같은 매장이라고 판단
         Optional<Store> optionalStore = storeRepository.findByAddressAndContact(storeRequest.getAddress(), storeRequest.getContact());
 
@@ -62,7 +70,14 @@ public class StoreServiceImpl implements StoreService {
      * 로그인 된 사용자 아이디와 매장의 점장을 비교해서 사용자 소유 매장일 경우 정보 변경
      */
     @Override
-    public StoreResponse modifyStore(StoreRequest storeRequest, Long storeId, String userId) {
+    public StoreResponse modifyStore(StoreRequest storeRequest, Long storeId) {
+        List<String> authorities = LoginCheckUtils.getAuthorities();
+        String userId = LoginCheckUtils.getUserId();
+
+        if (!authorities.contains("ROLE_PARTNER")) {
+            throw new ReservationException(ONLY_FOR_PARTNER);
+        }
+
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new ReservationException(NOT_FOUND_STORE));
 
@@ -80,7 +95,14 @@ public class StoreServiceImpl implements StoreService {
      * 매장 삭제
      */
     @Override
-    public MessageResponse deleteStore(Long storeId, String userId) {
+    public MessageResponse deleteStore(Long storeId) {
+        List<String> authorities = LoginCheckUtils.getAuthorities();
+        String userId = LoginCheckUtils.getUserId();
+
+        if (!authorities.contains("ROLE_PARTNER")) {
+            throw new ReservationException(ONLY_FOR_PARTNER);
+        }
+
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new ReservationException(NOT_FOUND_STORE));
 

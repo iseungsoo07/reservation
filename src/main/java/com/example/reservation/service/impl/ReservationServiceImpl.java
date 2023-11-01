@@ -12,6 +12,7 @@ import com.example.reservation.repository.MemberRepository;
 import com.example.reservation.repository.ReservationRepository;
 import com.example.reservation.repository.StoreRepository;
 import com.example.reservation.service.ReservationService;
+import com.example.reservation.utils.LoginCheckUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -38,9 +39,17 @@ public class ReservationServiceImpl implements ReservationService {
 
     /**
      * 매장 예약
+     * 로그인하지 않은 사용자는 예약이 불가능 (회원가입 필수)
      */
     @Override
-    public ReservationResponse reserveStore(Long id, String userId, ReservationRequest reservationRequest) {
+    public ReservationResponse reserveStore(Long id, ReservationRequest reservationRequest) {
+        String userId = LoginCheckUtils.getUserId();
+        List<String> authorities = LoginCheckUtils.getAuthorities();
+
+        if (!authorities.contains("ROLE_USER")) {
+            throw new ReservationException(ONLY_FOR_USER);
+        }
+
         Member member = getMember(userId);
         Store store = getStore(id);
 
@@ -74,10 +83,12 @@ public class ReservationServiceImpl implements ReservationService {
 
     /**
      * 예약 수정
-     * 예약 상태가 REVIEWED인 경우에는 수정이 불가능하도록 한다.
+     * 정책상 예약시간 30분전 이후부터는 예약 변경이 불가능 하도록 한다.
      */
     @Override
-    public ReservationResponse updateReservation(Long reservationId, ReservationRequest reservationRequest, String userId) {
+    public ReservationResponse updateReservation(Long reservationId, ReservationRequest reservationRequest) {
+        String userId = LoginCheckUtils.getUserId();
+
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new ReservationException(NOT_FOUND_RESERVATION));
 
@@ -85,7 +96,11 @@ public class ReservationServiceImpl implements ReservationService {
             throw new ReservationException(UNMATCH_RESERVATION_USER);
         }
 
-        if (reservation.getReservationStatus() == REVIEWED) {
+        LocalDateTime now = LocalDateTime.now();
+
+        // 정책상 이미 방문처리 된 상태거나 (= 예약시간이 이미 10분밖에 안남았다는 것을 의미)
+        // 예약 시간 30분전부터는 예약 변경 불가능
+        if (reservation.isVisitYn() || now.isAfter(reservation.getReservationDate().minusMinutes(30))) {
             throw new ReservationException(CANNOT_UPDATE_RESERVATION);
         }
 
@@ -118,7 +133,9 @@ public class ReservationServiceImpl implements ReservationService {
      * 정책상 예약시간 30분전 이후부터는 취소가 불가능 하도록 한다.
      */
     @Override
-    public MessageResponse cancelReservation(Long reservationId, String userId) {
+    public MessageResponse cancelReservation(Long reservationId) {
+        String userId = LoginCheckUtils.getUserId();
+
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new ReservationException(NOT_FOUND_RESERVATION));
 
@@ -146,7 +163,14 @@ public class ReservationServiceImpl implements ReservationService {
      * 예약 내역 - 사용자
      */
     @Override
-    public Page<ReservationResponse> getReservationListForUser(String userId, Pageable pageable) {
+    public Page<ReservationResponse> getReservationListForUser(Pageable pageable) {
+        String userId = LoginCheckUtils.getUserId();
+        List<String> authorities = LoginCheckUtils.getAuthorities();
+
+        if (!authorities.contains("ROLE_USER")) {
+            throw new ReservationException(ONLY_FOR_USER);
+        }
+
         Member member = getMember(userId);
 
         // 사용자가 예약한 예약 내역을 최근에 예약한것부터 리스트로 보여준다.
@@ -160,7 +184,13 @@ public class ReservationServiceImpl implements ReservationService {
      */
     @Override
     public Page<ReservationPartnerResponse> getReservationListForPartner
-    (String userId, Long storeId, LocalDate date, Pageable pageable) {
+    (Long storeId, LocalDate date, Pageable pageable) {
+        List<String> authorities = LoginCheckUtils.getAuthorities();
+        String userId = LoginCheckUtils.getUserId();
+
+        if (!authorities.contains("ROLE_PARTNER")) {
+            throw new ReservationException(ONLY_FOR_PARTNER);
+        }
 
         Store store = getStore(storeId);
         Member member = getMember(userId);
@@ -188,7 +218,14 @@ public class ReservationServiceImpl implements ReservationService {
      * 예약 승인
      */
     @Override
-    public ReservationPartnerResponse approveReservation(String userId, Long reservationId) {
+    public ReservationPartnerResponse approveReservation(Long reservationId) {
+        List<String> authorities = LoginCheckUtils.getAuthorities();
+        String userId = LoginCheckUtils.getUserId();
+
+        if (!authorities.contains("ROLE_PARTNER")) {
+            throw new ReservationException(ONLY_FOR_PARTNER);
+        }
+
         Member member = getMember(userId);
 
         Reservation reservation = reservationRepository.findById(reservationId)
@@ -215,7 +252,14 @@ public class ReservationServiceImpl implements ReservationService {
      * 예약 거절
      */
     @Override
-    public ReservationPartnerResponse refuseReservation(String userId, Long reservationId) {
+    public ReservationPartnerResponse refuseReservation(Long reservationId) {
+        List<String> authorities = LoginCheckUtils.getAuthorities();
+        String userId = LoginCheckUtils.getUserId();
+
+        if (!authorities.contains("ROLE_PARTNER")) {
+            throw new ReservationException(ONLY_FOR_PARTNER);
+        }
+
         Member member = getMember(userId);
 
         Reservation reservation = reservationRepository.findById(reservationId)

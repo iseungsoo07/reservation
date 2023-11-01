@@ -1,24 +1,29 @@
 ### add review
-POST http://localhost:8080/review/4
+POST http://localhost:8080/review/3
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtZWxvbiIsIm1lbWJlclR5cGUiOiJST0xFX1VTRVIiLCJpYXQiOjE2OTg1NTQ0NTIsImV4cCI6MTY5ODU1ODA1Mn0.3YQCZW0hQ6QaBIPig7-gsIJrUVD01c72NHjbcvnAYYNDsuUv96htbJ1mwOdnKTYquGcLq_Q4CmQVhjdP9Z7PFg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdm9jYWRvIiwibWVtYmVyVHlwZSI6IlJPTEVfVVNFUiIsImlhdCI6MTY5ODgzNDg1MCwiZXhwIjoxNjk4ODM4NDUwfQ.KqfWXZ9vGqX60in_JRPbEBk2X1UgVYb7tcIItmNcKY_WU9vsFBfzUUwVwxLz5uQLto5YlH7yljNNWvVunIkdPg
 
 {
-    "userId": "berry",
     "storeId": 2,
-    "content": "서비스 너무 만족했습니다!!",
-    "rating": 5.0
+    "content": "서비스 대만족합니다!!",
+    "rating": 4.5
 }
 
 ### update review
-PUT http://localhost:8080/review/10
+PUT http://localhost:8080/review/15
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtZWxvbiIsIm1lbWJlclR5cGUiOiJST0xFX1VTRVIiLCJpYXQiOjE2OTg2Mzc2MzksImV4cCI6MTY5ODY0MTIzOX0.Q3eUpkIU8bA5LXADgCYeN3VtpG1m1jVBjSiNZLxPL3FI8PTLO0n7cd0_X8Zp9qFVk9GFSzGvTk1kIHrQ8Ds-aA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdm9jYWRvIiwibWVtYmVyVHlwZSI6IlJPTEVfVVNFUiIsImlhdCI6MTY5ODgzNDg1MCwiZXhwIjoxNjk4ODM4NDUwfQ.KqfWXZ9vGqX60in_JRPbEBk2X1UgVYb7tcIItmNcKY_WU9vsFBfzUUwVwxLz5uQLto5YlH7yljNNWvVunIkdPg
 
 {
     "content": "서비스 최고",
-    "rating": 3.0
+    "rating": 4.0
 }
+
+### delete review
+DELETE http://localhost:8080/review/14
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdm9jYWRvIiwibWVtYmVyVHlwZSI6IlJPTEVfVVNFUiIsImlhdCI6MTY5ODgzNDg1MCwiZXhwIjoxNjk4ODM4NDUwfQ.KqfWXZ9vGqX60in_JRPbEBk2X1UgVYb7tcIItmNcKY_WU9vsFBfzUUwVwxLz5uQLto5YlH7yljNNWvVunIkdPg
+
 
 ### show reviews
 GET http://localhost:8080/review/2

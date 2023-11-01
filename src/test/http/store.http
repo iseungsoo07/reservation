@@ -1,38 +1,37 @@
 ### regist store
 POST http://localhost:8080/store/regist
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmMiLCJtZW1iZXJUeXBlIjoiUk9MRV9QQVJUTkVSIiwiaWF0IjoxNjk4NTg1NzYxLCJleHAiOjE2OTg1ODkzNjF9.2c8xW3TmFCRwdj3F2cWVo8qS1g798CssDNz5i7yzkStbZdR1tUcn4eQMLubMlySMIjTS8Og0yOs94i14vbhoVw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVycnkiLCJtZW1iZXJUeXBlIjoiUk9MRV9QQVJUTkVSIiwiaWF0IjoxNjk4ODMzMzk0LCJleHAiOjE2OTg4MzY5OTR9.bgbwddmH7rrDqTg4GVPPqxBZPpznzSINm10nzuKQ_gGN9BPPPZISErnt8W8OVqEa-Ezn8rguEonVeIVr3dEe8Q
 
 {
-    "name": "ㅁㄴㅇㄹㅁㄴㅇ",
-    "address": "경기도 용인시 분당구 성복동",
-    "description": "기차를 테마로 ㅁㄴㅇㄹ 맛집",
-    "contact": "031-233-1234",
-    "open": "10:00:00",
-    "close": "20:00:00"
+    "name": "마왕족발",
+    "address": "경기도 용인시 수지구 풍덕천동",
+    "description": "족발과 당면의 만남",
+    "contact": "031-039-2345",
+    "open": "18:00:00",
+    "close": "02:00:00"
 }
 
 ### modify store
-PUT http://localhost:8080/store/2
+PUT http://localhost:8080/store/11
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcHBsZSIsIm1lbWJlclR5cGUiOiJST0xFX1BBUlRORVIiLCJpYXQiOjE2OTg1NjMzNDEsImV4cCI6MTY5ODU2Njk0MX0.-QI6cT8tcs9DY2veZTLdeH247g0fuAix762OsDxwybBFLGmOjE9YIba3r29zgev3zeaH04j_6snZhhZH_YPFUw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVycnkiLCJtZW1iZXJUeXBlIjoiUk9MRV9QQVJUTkVSIiwiaWF0IjoxNjk4ODMzMzk0LCJleHAiOjE2OTg4MzY5OTR9.bgbwddmH7rrDqTg4GVPPqxBZPpznzSINm10nzuKQ_gGN9BPPPZISErnt8W8OVqEa-Ezn8rguEonVeIVr3dEe8Q
 
 {
-    "name": "기사식당",
+    "name": "마왕족발",
     "address": "경기도 용인시 수지구 동천동",
-    "description": "불백 맛집",
-    "contact": "031-234-1234",
-    "open": "10:00:00",
-    "close": "20:00:00"
+    "description": "족발과 당면의 만남",
+    "contact": "031-039-2345",
+    "open": "18:00:00",
+    "close": "01:00:00"
 }
 
 ### delete store
-DELETE http://localhost:8080/store/9
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmMiLCJtZW1iZXJUeXBlIjoiUk9MRV9QQVJUTkVSIiwiaWF0IjoxNjk4NTg1NzYxLCJleHAiOjE2OTg1ODkzNjF9.2c8xW3TmFCRwdj3F2cWVo8qS1g798CssDNz5i7yzkStbZdR1tUcn4eQMLubMlySMIjTS8Og0yOs94i14vbhoVw
-
+DELETE http://localhost:8080/store/11
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVycnkiLCJtZW1iZXJUeXBlIjoiUk9MRV9QQVJUTkVSIiwiaWF0IjoxNjk4ODMzMzk0LCJleHAiOjE2OTg4MzY5OTR9.bgbwddmH7rrDqTg4GVPPqxBZPpznzSINm10nzuKQ_gGN9BPPPZISErnt8W8OVqEa-Ezn8rguEonVeIVr3dEe8Q
 
 ### search store
-GET http://localhost:8080/store/search?name=동
+GET http://localhost:8080/store/search?name=
 
 ### get stores
 GET http://localhost:8080/store/list?orderBy=review

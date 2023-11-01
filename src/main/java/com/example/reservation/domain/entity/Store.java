@@ -64,6 +64,11 @@ public class Store {
                 .sum();
         int totalCount = reviews.size();
 
-        this.rating = totalRating / totalCount;
+        System.out.println("totalRating = " + totalRating);
+        System.out.println("totalCount = " + totalCount);
+
+        this.rating = (double) Math.round(totalRating / totalCount * 10) / 10;
+
+        System.out.println("this.rating = " + this.rating);
     }
 }

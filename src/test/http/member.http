@@ -3,9 +3,9 @@ POST http://localhost:8080/user/signup
 Content-Type: application/json
 
 {
-    "userId": "abc",
+    "userId": "cherry",
     "password": "7777",
-    "name": "알파벳",
+    "name": "채리",
     "phone": "010-7777-7777",
     "memberType": "ROLE_PARTNER"
 }
@@ -15,9 +15,10 @@ POST http://localhost:8080/user/signin
 Content-Type: application/json
 
 {
-    "userId": "melon",
-    "password": "4444"
+    "userId": "banana",
+    "password": "2222"
 }
 
 ### delete member
-DELETE http://localhost:8080/user/9
+DELETE http://localhost:8080/user/11
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVycnkiLCJtZW1iZXJUeXBlIjoiUk9MRV9QQVJUTkVSIiwiaWF0IjoxNjk4ODMzMzQ3LCJleHAiOjE2OTg4MzY5NDd9.AeMUo21iGe6krV2gIequprdS87R6_V0CZrMp8RTHCE8zdXgglbjuVxdBe8e8QzETgo0QnT9J8DMAuxruuXlsXw

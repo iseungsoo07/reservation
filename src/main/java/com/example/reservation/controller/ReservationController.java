@@ -1,23 +1,14 @@
 package com.example.reservation.controller;
 
 import com.example.reservation.domain.model.ReservationRequest;
-import com.example.reservation.exception.ReservationException;
 import com.example.reservation.service.ReservationService;
-import com.example.reservation.utils.LoginCheckUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static com.example.reservation.exception.ErrorCode.ONLY_FOR_PARTNER;
-import static com.example.reservation.exception.ErrorCode.ONLY_FOR_USER;
 
 @RestController
 @RequestMapping("/reservation")
@@ -33,10 +24,7 @@ public class ReservationController {
     public ResponseEntity<?> reserveStore(@PathVariable Long storeId,
                                           @RequestBody ReservationRequest reservationRequest) {
 
-        UserDetails userDetails = LoginCheckUtils.loginCheck();
-        String userId = userDetails.getUsername();
-
-        return ResponseEntity.ok(reservationService.reserveStore(storeId, userId, reservationRequest));
+        return ResponseEntity.ok(reservationService.reserveStore(storeId, reservationRequest));
     }
 
     /**
@@ -45,10 +33,7 @@ public class ReservationController {
      */
     @PatchMapping("/{reservationId}")
     public ResponseEntity<?> updateReservation(@PathVariable Long reservationId, @RequestBody ReservationRequest reservationRequest) {
-        UserDetails userDetails = LoginCheckUtils.loginCheck();
-        String userId = userDetails.getUsername();
-
-        return ResponseEntity.ok(reservationService.updateReservation(reservationId, reservationRequest, userId));
+        return ResponseEntity.ok(reservationService.updateReservation(reservationId, reservationRequest));
     }
 
     /**
@@ -58,10 +43,7 @@ public class ReservationController {
      */
     @DeleteMapping("/{reservationId}")
     public ResponseEntity<?> cancelReservation(@PathVariable Long reservationId) {
-        UserDetails userDetails = LoginCheckUtils.loginCheck();
-        String userId = userDetails.getUsername();
-
-        return ResponseEntity.ok(reservationService.cancelReservation(reservationId, userId));
+        return ResponseEntity.ok(reservationService.cancelReservation(reservationId));
     }
 
     /**
@@ -71,17 +53,7 @@ public class ReservationController {
      */
     @GetMapping("/list")
     public ResponseEntity<?> getReservationListForUser(Pageable pageable) {
-        UserDetails userDetails = LoginCheckUtils.loginCheck();
-
-        List<String> authorities = getAuthorities(userDetails);
-
-        String userId = userDetails.getUsername();
-
-        if (!authorities.contains("ROLE_USER")) {
-            throw new ReservationException(ONLY_FOR_USER);
-        }
-
-        return ResponseEntity.ok(reservationService.getReservationListForUser(userId, pageable));
+        return ResponseEntity.ok(reservationService.getReservationListForUser(pageable));
     }
 
     /**
@@ -93,17 +65,7 @@ public class ReservationController {
     public ResponseEntity<?> getReservationListForPartner(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
                                                           @PathVariable Long storeId,
                                                           Pageable pageable) {
-        UserDetails userDetails = LoginCheckUtils.loginCheck();
-
-        List<String> authorities = getAuthorities(userDetails);
-
-        String userId = userDetails.getUsername();
-
-        if (!authorities.contains("ROLE_PARTNER")) {
-            throw new ReservationException(ONLY_FOR_PARTNER);
-        }
-
-        return ResponseEntity.ok(reservationService.getReservationListForPartner(userId, storeId, date, pageable));
+        return ResponseEntity.ok(reservationService.getReservationListForPartner(storeId, date, pageable));
     }
 
     /**
@@ -113,17 +75,7 @@ public class ReservationController {
      */
     @PatchMapping("/approval/{reservationId}")
     public ResponseEntity<?> approveReservation(@PathVariable Long reservationId) {
-        UserDetails userDetails = LoginCheckUtils.loginCheck();
-
-        List<String> authorities = getAuthorities(userDetails);
-
-        String userId = userDetails.getUsername();
-
-        if (!authorities.contains("ROLE_PARTNER")) {
-            throw new ReservationException(ONLY_FOR_PARTNER);
-        }
-
-        return ResponseEntity.ok(reservationService.approveReservation(userId, reservationId));
+        return ResponseEntity.ok(reservationService.approveReservation(reservationId));
     }
 
     /**
@@ -133,21 +85,7 @@ public class ReservationController {
      */
     @PatchMapping("/refusal/{reservationId}")
     public ResponseEntity<?> refuseReservation(@PathVariable Long reservationId) {
-        UserDetails userDetails = LoginCheckUtils.loginCheck();
-
-        List<String> authorities = getAuthorities(userDetails);
-
-        String userId = userDetails.getUsername();
-
-        if (!authorities.contains("ROLE_PARTNER")) {
-            throw new ReservationException(ONLY_FOR_PARTNER);
-        }
-
-        return ResponseEntity.ok(reservationService.refuseReservation(userId, reservationId));
+        return ResponseEntity.ok(reservationService.refuseReservation(reservationId));
     }
 
-    private static List<String> getAuthorities(UserDetails userDetails) {
-        return userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority).collect(Collectors.toList());
-    }
 }

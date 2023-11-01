@@ -18,6 +18,7 @@ public class StoreResponse {
     private String contact;
     private LocalTime open;
     private LocalTime close;
+    private Double rating;
 
     public static StoreResponse of(Store store) {
         return StoreResponse.builder()
@@ -27,6 +28,7 @@ public class StoreResponse {
                 .contact(store.getContact())
                 .open(store.getOpen())
                 .close(store.getClose())
+                .rating(store.getRating())
                 .build();
     }
 
@@ -38,6 +40,7 @@ public class StoreResponse {
                 .description(store.getDescription())
                 .open(store.getOpen())
                 .close(store.getClose())
+                .rating(store.getRating())
                 .build());
 
     }

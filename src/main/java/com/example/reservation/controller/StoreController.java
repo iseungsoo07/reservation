@@ -4,18 +4,15 @@ import com.example.reservation.domain.model.StoreRequest;
 import com.example.reservation.domain.model.StoreResponse;
 import com.example.reservation.exception.ReservationException;
 import com.example.reservation.service.StoreService;
-import com.example.reservation.utils.LoginCheckUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 import static com.example.reservation.exception.ErrorCode.INVALID_REQUEST;
-import static com.example.reservation.exception.ErrorCode.ONLY_FOR_PARTNER;
 
 
 @RestController
@@ -32,14 +29,7 @@ public class StoreController {
      */
     @PostMapping("/regist")
     public ResponseEntity<?> addStore(@RequestBody StoreRequest storeRequest) {
-        UserDetails userDetails = LoginCheckUtils.loginCheck();
-        String userId = userDetails.getUsername();
-
-        if (userDetails.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_PARTNER"))) {
-            throw new ReservationException(ONLY_FOR_PARTNER);
-        }
-
-        StoreResponse storeResponse = storeService.addStore(storeRequest, userId);
+        StoreResponse storeResponse = storeService.addStore(storeRequest);
 
         return ResponseEntity.ok(storeResponse);
     }
@@ -49,14 +39,7 @@ public class StoreController {
      */
     @PutMapping("/{storeId}")
     public ResponseEntity<?> modifyStore(@PathVariable Long storeId, @RequestBody StoreRequest storeRequest) {
-        UserDetails userDetails = LoginCheckUtils.loginCheck();
-        String userId = userDetails.getUsername();
-
-        if (userDetails.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_PARTNER"))) {
-            throw new ReservationException(ONLY_FOR_PARTNER);
-        }
-
-        StoreResponse storeResponse = storeService.modifyStore(storeRequest, storeId, userId);
+        StoreResponse storeResponse = storeService.modifyStore(storeRequest, storeId);
 
         return ResponseEntity.ok(storeResponse);
     }
@@ -66,14 +49,7 @@ public class StoreController {
      */
     @DeleteMapping("/{storeId}")
     public ResponseEntity<?> deleteStore(@PathVariable Long storeId) {
-        UserDetails userDetails = LoginCheckUtils.loginCheck();
-        String userId = userDetails.getUsername();
-
-        if (userDetails.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_PARTNER"))) {
-            throw new ReservationException(ONLY_FOR_PARTNER);
-        }
-
-        return ResponseEntity.ok(storeService.deleteStore(storeId, userId));
+        return ResponseEntity.ok(storeService.deleteStore(storeId));
     }
 
     /**

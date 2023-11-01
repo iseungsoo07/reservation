@@ -10,18 +10,18 @@ import org.springframework.data.domain.Pageable;
 import java.time.LocalDate;
 
 public interface ReservationService {
-    ReservationResponse reserveStore(Long id, String userId, ReservationRequest reservationRequest);
+    ReservationResponse reserveStore(Long id, ReservationRequest reservationRequest);
 
-    ReservationResponse updateReservation(Long reservationId, ReservationRequest reservationRequest, String userId);
+    ReservationResponse updateReservation(Long reservationId, ReservationRequest reservationRequest);
 
-    MessageResponse cancelReservation(Long reservationId, String userId);
+    MessageResponse cancelReservation(Long reservationId);
 
-    Page<ReservationResponse> getReservationListForUser(String userId, Pageable pageable);
+    Page<ReservationResponse> getReservationListForUser(Pageable pageable);
 
-    Page<ReservationPartnerResponse> getReservationListForPartner(String userId, Long storeId, LocalDate date, Pageable pageable);
+    Page<ReservationPartnerResponse> getReservationListForPartner(Long storeId, LocalDate date, Pageable pageable);
 
-    ReservationPartnerResponse approveReservation(String userId, Long reservationId);
+    ReservationPartnerResponse approveReservation(Long reservationId);
 
-    ReservationPartnerResponse refuseReservation(String userId, Long reservationId);
+    ReservationPartnerResponse refuseReservation(Long reservationId);
 
 }

@@ -11,6 +11,7 @@ import com.example.reservation.exception.ReservationException;
 import com.example.reservation.repository.MemberRepository;
 import com.example.reservation.repository.StoreRepository;
 import com.example.reservation.service.MemberService;
+import com.example.reservation.utils.LoginCheckUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -84,8 +85,14 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
      */
     @Override
     public MessageResponse deleteMember(Long memberId) {
+        String userId = LoginCheckUtils.getUserId();
+
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new ReservationException(NOT_FOUND_MEMBER));
+
+        if (!member.getUserId().equals(userId)) {
+            throw new ReservationException(CANNOT_DELETE_OTHER_MEMBER);
+        }
 
         Optional<Store> optionalStore = storeRepository.findByOwner(member.getUserId());
 

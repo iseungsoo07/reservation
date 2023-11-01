@@ -15,6 +15,7 @@ import com.example.reservation.repository.ReservationRepository;
 import com.example.reservation.repository.ReviewRepository;
 import com.example.reservation.repository.StoreRepository;
 import com.example.reservation.service.ReviewService;
+import com.example.reservation.utils.LoginCheckUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -37,13 +38,14 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
 
     /**
-     * 로그인 된 회원이 이용내역을 볼 수 있고 (마이페이지 느낌)
-     * 그 이용 내역을 볼 수 있는 화면에서 각 내역에 대한 리뷰를 작성할 수 있도록 함
+     * 각 예약 내역에 대한 리뷰를 작성할 수 있도록 함
      * 한 번 리뷰를 작성한 예약 내역에 대해서는 다시 작성할 수 없도록 한다. (매장 평점 조작 방지)
      */
     @Override
-    public ReviewResponse addReview(Long reservationId, ReviewRequest reviewRequest, String userId) {
-        Member member = memberRepository.findByUserId(reviewRequest.getUserId())
+    public ReviewResponse addReview(Long reservationId, ReviewRequest reviewRequest) {
+        String userId = LoginCheckUtils.getUserId();
+
+        Member member = memberRepository.findByUserId(userId)
                 .orElseThrow(() -> new ReservationException(ErrorCode.NOT_FOUND_MEMBER));
 
         Store store = storeRepository.findById(reviewRequest.getStoreId())
@@ -77,6 +79,7 @@ public class ReviewServiceImpl implements ReviewService {
      * 입력받은 값에 대한 유효성 검증 로직
      */
     private static void validateReservation(ReviewRequest reviewRequest, Reservation reservation, String userId) {
+        // 예약 내역이 가진 사용자와 로그인된 사용자가 같은 사람이어야 리뷰 작성 가능
         if (!Objects.equals(reservation.getMember().getUserId(), userId)) {
             throw new ReservationException(ErrorCode.UNMATCH_RESERVATION_USER);
         }
@@ -92,7 +95,7 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         // 예약 정보와 입력받은 사용자 아이디, 매장 아이디가 일치하지 않으면 예외 발생
-        if (!Objects.equals(reservation.getMember().getUserId(), reviewRequest.getUserId())
+        if (!Objects.equals(reservation.getMember().getUserId(), userId)
                 || !Objects.equals(reservation.getStore().getId(), reviewRequest.getStoreId())) {
             throw new ReservationException(ErrorCode.UNMATCH_RESERVED_INFORMATION);
         }
@@ -103,7 +106,9 @@ public class ReviewServiceImpl implements ReviewService {
      * 내용과 평점을 변경할 수 있음
      */
     @Override
-    public ReviewResponse updateReview(Long reviewId, ReviewUpdateRequest reviewUpdateRequest, String userId) {
+    public ReviewResponse updateReview(Long reviewId, ReviewUpdateRequest reviewUpdateRequest) {
+        String userId = LoginCheckUtils.getUserId();
+
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ReservationException(ErrorCode.NOT_FOUND_REVIEW));
 
@@ -130,7 +135,9 @@ public class ReviewServiceImpl implements ReviewService {
      * 리뷰 삭제
      */
     @Override
-    public MessageResponse deleteReview(Long reviewId, String userId) {
+    public MessageResponse deleteReview(Long reviewId) {
+        String userId = LoginCheckUtils.getUserId();
+
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ReservationException(NOT_FOUND_REVIEW));
 

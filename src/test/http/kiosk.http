@@ -1,5 +1,5 @@
 ### confirm reservation
-PATCH http://localhost:8080/kiosk/confirm/1
+PATCH http://localhost:8080/kiosk/confirm/8
 Content-Type: application/json
 
 {

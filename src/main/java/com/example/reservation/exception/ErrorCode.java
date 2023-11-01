@@ -15,6 +15,7 @@ public enum ErrorCode {
     PASSWORD_UNMATCH("비밀번호가 일치하지 않습니다."),
     ALREADY_USING_ID("이미 사용중인 아이디 입니다."),
     NEED_LOGIN("로그인 후 이용하실 수 있습니다."),
+    CANNOT_DELETE_OTHER_MEMBER("회원 탈퇴는 본인 계정만 할 수 있습니다."),
     ONLY_FOR_USER("사용자 권한 필요."),
     ONLY_FOR_PARTNER("파트너 권한 필요."),
     MEMBER_HAS_STORE("매장이 있는 사용자는 탈퇴할 수 없습니다."),
@@ -33,7 +34,7 @@ public enum ErrorCode {
     UNMATCH_RESERVED_INFORMATION("예약 정보 불일치"),
     ARRIVE_TOO_EARLY("아직 예약시간 10분전이 아닙니다."),
     ARRIVE_TOO_LATE("예약시간 10분전이 지났습니다."),
-    CANNOT_UPDATE_RESERVATION("이미 리뷰를 작성한 예약은 변경이 불가능합니다."),
+    CANNOT_UPDATE_RESERVATION("예약시간 30분전 이후부터는 예약 변경이 불가능 합니다."),
     CANNOT_CANCEL_RESERVATION("예약시간 30분전 이후부터는 예약 취소가 불가능 합니다."),
     ALREADY_VISITED_RESERVATION("이미 방문처리된 예약입니다."),
 
