@@ -11,7 +11,6 @@ import javax.validation.constraints.Min;
 @AllArgsConstructor
 @Builder
 public class ReviewRequest {
-    private Long storeId;
     private String content;
 
     @Min(0)

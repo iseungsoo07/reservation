@@ -38,6 +38,7 @@ public class StoreServiceImpl implements StoreService {
         List<String> authorities = LoginCheckUtils.getAuthorities();
         String userId = LoginCheckUtils.getUserId();
 
+        // 파트너 권한이 없는 경우
         if (!authorities.contains("ROLE_PARTNER")) {
             throw new ReservationException(ONLY_FOR_PARTNER);
         }
@@ -74,6 +75,7 @@ public class StoreServiceImpl implements StoreService {
         List<String> authorities = LoginCheckUtils.getAuthorities();
         String userId = LoginCheckUtils.getUserId();
 
+        // 파트너 권한이 없는 경우
         if (!authorities.contains("ROLE_PARTNER")) {
             throw new ReservationException(ONLY_FOR_PARTNER);
         }
@@ -118,12 +120,14 @@ public class StoreServiceImpl implements StoreService {
                 .build();
     }
 
+    // 매장의 예약 리스트가 비어있지 않으면 예외 발생
     private static void hasReservation(Store store) {
         if (!store.getReservationList().isEmpty()) {
             throw new ReservationException(STORE_HAS_RESERVATION);
         }
     }
 
+    // 점장과 로그인한 사용자 정보가 다르면 예외 발생
     private void validateOwnerAndUser(String ownerId, String userId) {
         if (!ownerId.equals(userId)) {
             throw new ReservationException(SERVICE_ONLY_FOR_OWNER);

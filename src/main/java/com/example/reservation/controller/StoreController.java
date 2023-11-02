@@ -62,6 +62,12 @@ public class StoreController {
         return getStoresByQueryParam(orderBy, pageable);
     }
 
+    /**
+     * 쿼리 파라미터에 따라 다른 메서드 실행
+     * name을 받으면 가나다순
+     * rating을 받으면 평점이 높은 순
+     * review를 받으면 리뷰 개수가 많은 순으로 매장 리스트를 보여준다.
+     */
     private ResponseEntity<?> getStoresByQueryParam(String query, Pageable pageable) {
         switch (query) {
             case "name":

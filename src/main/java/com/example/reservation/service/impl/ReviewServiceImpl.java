@@ -48,11 +48,12 @@ public class ReviewServiceImpl implements ReviewService {
         Member member = memberRepository.findByUserId(userId)
                 .orElseThrow(() -> new ReservationException(ErrorCode.NOT_FOUND_MEMBER));
 
-        Store store = storeRepository.findById(reviewRequest.getStoreId())
-                .orElseThrow(() -> new ReservationException(ErrorCode.NOT_FOUND_STORE));
-
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new ReservationException(ErrorCode.NOT_FOUND_RESERVATION));
+
+        Store store = storeRepository.findById(reservation.getStore().getId())
+                .orElseThrow(() -> new ReservationException(ErrorCode.NOT_FOUND_STORE));
+
 
         validateReservation(reviewRequest, reservation, userId);
 
@@ -93,12 +94,6 @@ public class ReviewServiceImpl implements ReviewService {
         if (!reservation.isVisitYn() || reservation.getReservationStatus() != APPROVAL) {
             throw new ReservationException(ErrorCode.NOT_USED_RESERVATION);
         }
-
-        // 예약 정보와 입력받은 사용자 아이디, 매장 아이디가 일치하지 않으면 예외 발생
-        if (!Objects.equals(reservation.getMember().getUserId(), userId)
-                || !Objects.equals(reservation.getStore().getId(), reviewRequest.getStoreId())) {
-            throw new ReservationException(ErrorCode.UNMATCH_RESERVED_INFORMATION);
-        }
     }
 
     /**
@@ -112,6 +107,7 @@ public class ReviewServiceImpl implements ReviewService {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ReservationException(ErrorCode.NOT_FOUND_REVIEW));
 
+        // 리뷰 작성자와 로그인된 사용자가 다른 경우 예외 발생
         if (!Objects.equals(review.getMember().getUserId(), userId)) {
             throw new ReservationException(UNMATCH_REVIEW_USER);
         }
@@ -120,6 +116,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         reviewRepository.save(review);
 
+        // 수정된 평점으로 매장 평점 업데이트
         review.getStore().updateRating();
         storeRepository.save(review.getStore());
 
@@ -141,10 +138,12 @@ public class ReviewServiceImpl implements ReviewService {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ReservationException(NOT_FOUND_REVIEW));
 
+        // 리뷰 작성자와 로그인된 사용자가 다른 경우 예외 발생
         if (!Objects.equals(review.getMember().getUserId(), userId)) {
             throw new ReservationException(UNMATCH_REVIEW_USER);
         }
 
+        // 리뷰를 삭제하면서 매장의 평점 정보도 업데이트
         reviewRepository.delete(review);
         review.getStore().updateRating();
 
@@ -167,6 +166,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         List<Review> reviews = store.getReviews();
 
+        // 리뷰 목록을 최근에 작성한 리뷰 순으로 반환
         return reviews.stream()
                 .sorted((x, y) -> y.getCreatedAt().compareTo(x.getCreatedAt()))
                 .map(review -> ReviewResponse.builder()

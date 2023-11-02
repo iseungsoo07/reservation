@@ -46,6 +46,7 @@ public class ReservationServiceImpl implements ReservationService {
         String userId = LoginCheckUtils.getUserId();
         List<String> authorities = LoginCheckUtils.getAuthorities();
 
+        // 사용자 권한이 없는 경우 예외 발생
         if (!authorities.contains("ROLE_USER")) {
             throw new ReservationException(ONLY_FOR_USER);
         }
@@ -92,6 +93,7 @@ public class ReservationServiceImpl implements ReservationService {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new ReservationException(NOT_FOUND_RESERVATION));
 
+        // 예약자와 로그인한 사용자가 같지 않은 경우 예외 발생
         if (!Objects.equals(reservation.getMember().getUserId(), userId)) {
             throw new ReservationException(UNMATCH_RESERVATION_USER);
         }
@@ -139,6 +141,7 @@ public class ReservationServiceImpl implements ReservationService {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new ReservationException(NOT_FOUND_RESERVATION));
 
+        // 예약자와 로그인한 사용자가 같지 않은 경우 예외 발생
         if (!Objects.equals(reservation.getMember().getUserId(), userId)) {
             throw new ReservationException(UNMATCH_RESERVATION_USER);
         }
@@ -167,6 +170,7 @@ public class ReservationServiceImpl implements ReservationService {
         String userId = LoginCheckUtils.getUserId();
         List<String> authorities = LoginCheckUtils.getAuthorities();
 
+        // 사용자 권한이 없으면 예외 발생
         if (!authorities.contains("ROLE_USER")) {
             throw new ReservationException(ONLY_FOR_USER);
         }
@@ -183,11 +187,11 @@ public class ReservationServiceImpl implements ReservationService {
      * 예약 내역 - 파트너
      */
     @Override
-    public Page<ReservationPartnerResponse> getReservationListForPartner
-    (Long storeId, LocalDate date, Pageable pageable) {
+    public Page<ReservationPartnerResponse> getReservationListForPartner(Long storeId, LocalDate date, Pageable pageable) {
         List<String> authorities = LoginCheckUtils.getAuthorities();
         String userId = LoginCheckUtils.getUserId();
 
+        // 파트너 권한이 없으면 예외 발생
         if (!authorities.contains("ROLE_PARTNER")) {
             throw new ReservationException(ONLY_FOR_PARTNER);
         }
@@ -203,7 +207,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         Page<Reservation> storeReservationPage = reservationRepository.findAllByStoreOrderByReservationDate(store, pageable);
 
-        // 입력받은 날짜를 통해 예약 내역에서 동일한 날짜를 가지는 예약 내역을 리스트로 가져온다.
+        // 입력받은 날짜를 통해 예약 내역에서 동일한 날짜를 가지는 예약 내역만 리스트로 가져온다.
         List<Reservation> filteredReservations = storeReservationPage.stream().filter(
                 srp -> srp.getReservationDate().getYear() == date.getYear() &&
                         srp.getReservationDate().getMonth() == date.getMonth() &&
@@ -222,6 +226,7 @@ public class ReservationServiceImpl implements ReservationService {
         List<String> authorities = LoginCheckUtils.getAuthorities();
         String userId = LoginCheckUtils.getUserId();
 
+        // 파트너 권한이 없는 경우
         if (!authorities.contains("ROLE_PARTNER")) {
             throw new ReservationException(ONLY_FOR_PARTNER);
         }
@@ -256,6 +261,7 @@ public class ReservationServiceImpl implements ReservationService {
         List<String> authorities = LoginCheckUtils.getAuthorities();
         String userId = LoginCheckUtils.getUserId();
 
+        // 파트너 권한이 없는 경우
         if (!authorities.contains("ROLE_PARTNER")) {
             throw new ReservationException(ONLY_FOR_PARTNER);
         }

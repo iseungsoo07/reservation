@@ -90,6 +90,7 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new ReservationException(NOT_FOUND_MEMBER));
 
+        // 로그인한 사용자와 탈퇴하려는 사용자의 아이디가 같지 않으면 예외 발생
         if (!member.getUserId().equals(userId)) {
             throw new ReservationException(CANNOT_DELETE_OTHER_MEMBER);
         }

@@ -44,6 +44,9 @@ public class MemberController {
         return ResponseEntity.ok(token);
     }
 
+    /**
+     * 회원 탈퇴
+     */
     @DeleteMapping("/{memberId}")
     public ResponseEntity<?> deleteMember(@PathVariable Long memberId) {
         return ResponseEntity.ok(memberService.deleteMember(memberId));
