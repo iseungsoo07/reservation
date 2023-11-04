@@ -35,7 +35,7 @@ public class MemberController {
      * 로그인
      */
     @PostMapping("/signin")
-    public ResponseEntity<?> signIn(@RequestBody SignInRequest signInRequest) {
+    public ResponseEntity<?> signIn(@RequestBody @Valid SignInRequest signInRequest) {
         Member member = memberService.authenticate(signInRequest);
 
         String token = tokenProvider.generateToken(member.getUserId(), member.getMemberType());

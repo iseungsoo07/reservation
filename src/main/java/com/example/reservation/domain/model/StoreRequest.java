@@ -2,6 +2,8 @@ package com.example.reservation.domain.model;
 
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalTime;
 
 @Getter
@@ -10,10 +12,21 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Builder
 public class StoreRequest {
+    @NotBlank
     private String name;
+
+    @NotBlank
     private String address;
+
+    @NotNull
     private String description;
+
+    @NotBlank
     private String contact;
+
+    @NotBlank
     private LocalTime open;
+
+    @NotBlank
     private LocalTime close;
 }

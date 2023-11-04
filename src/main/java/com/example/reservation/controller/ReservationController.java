@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 
 @RestController
@@ -22,7 +23,7 @@ public class ReservationController {
      */
     @PostMapping("/{storeId}")
     public ResponseEntity<?> reserveStore(@PathVariable Long storeId,
-                                          @RequestBody ReservationRequest reservationRequest) {
+                                          @RequestBody @Valid ReservationRequest reservationRequest) {
 
         return ResponseEntity.ok(reservationService.reserveStore(storeId, reservationRequest));
     }
@@ -32,7 +33,8 @@ public class ReservationController {
      * 예약 리스트에서 예약 내역을 보고 수정을 하도록 한다.
      */
     @PatchMapping("/{reservationId}")
-    public ResponseEntity<?> updateReservation(@PathVariable Long reservationId, @RequestBody ReservationRequest reservationRequest) {
+    public ResponseEntity<?> updateReservation(@PathVariable Long reservationId,
+                                               @RequestBody @Valid ReservationRequest reservationRequest) {
         return ResponseEntity.ok(reservationService.updateReservation(reservationId, reservationRequest));
     }
 

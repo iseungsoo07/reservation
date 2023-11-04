@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static com.example.reservation.exception.ErrorCode.INVALID_REQUEST;
@@ -28,7 +29,7 @@ public class StoreController {
      * 로그인한 사용자가 파트너 권한을 가지고 있어야 한다.
      */
     @PostMapping("/regist")
-    public ResponseEntity<?> addStore(@RequestBody StoreRequest storeRequest) {
+    public ResponseEntity<?> addStore(@RequestBody @Valid StoreRequest storeRequest) {
         StoreResponse storeResponse = storeService.addStore(storeRequest);
 
         return ResponseEntity.ok(storeResponse);
@@ -38,7 +39,7 @@ public class StoreController {
      * 매장 정보 수정
      */
     @PutMapping("/{storeId}")
-    public ResponseEntity<?> modifyStore(@PathVariable Long storeId, @RequestBody StoreRequest storeRequest) {
+    public ResponseEntity<?> modifyStore(@PathVariable Long storeId, @RequestBody @Valid StoreRequest storeRequest) {
         StoreResponse storeResponse = storeService.modifyStore(storeRequest, storeId);
 
         return ResponseEntity.ok(storeResponse);

@@ -21,7 +21,8 @@ public class ReviewController {
      * 로그인하지 않은 경우 리뷰를 작성할 수 없음.
      */
     @PostMapping("/{reservationId}")
-    public ResponseEntity<?> addReview(@PathVariable Long reservationId, @Valid @RequestBody ReviewRequest reviewRequest) {
+    public ResponseEntity<?> addReview(@PathVariable Long reservationId,
+                                       @RequestBody @Valid ReviewRequest reviewRequest) {
         return ResponseEntity.ok(reviewService.addReview(reservationId, reviewRequest));
     }
 
@@ -29,7 +30,8 @@ public class ReviewController {
      * 리뷰 수정
      */
     @PutMapping("/{reviewId}")
-    public ResponseEntity<?> updateReview(@PathVariable Long reviewId, @RequestBody ReviewUpdateRequest reviewUpdateRequest) {
+    public ResponseEntity<?> updateReview(@PathVariable Long reviewId,
+                                          @RequestBody @Valid ReviewUpdateRequest reviewUpdateRequest) {
         return ResponseEntity.ok(reviewService.updateReview(reviewId, reviewUpdateRequest));
     }
 
