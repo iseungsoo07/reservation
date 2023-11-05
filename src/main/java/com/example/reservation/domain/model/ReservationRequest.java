@@ -2,7 +2,7 @@ package com.example.reservation.domain.model;
 
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter
@@ -11,6 +11,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class ReservationRequest {
-    @NotBlank
+    @NotNull
     private LocalDateTime reservationDate;
 }

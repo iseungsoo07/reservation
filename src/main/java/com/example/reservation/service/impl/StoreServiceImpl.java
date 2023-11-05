@@ -88,6 +88,15 @@ public class StoreServiceImpl implements StoreService {
 
         // 매장 정보 수정
         store.updateStore(storeRequest);
+
+        // 수정된 정보로 매장을 찾음
+        Optional<Store> optionalStore = storeRepository.findByAddressAndContact(store.getAddress(), store.getContact());
+
+        // 같은 매장이 존재하면 예외 발생 (동일한 매장 중복 등록 불가능)
+        if (optionalStore.isPresent()) {
+            throw new ReservationException(ErrorCode.ALREADY_EXISTS_STORE);
+        }
+
         Store savedStore = storeRepository.save(store);
 
         return StoreResponse.of(savedStore);

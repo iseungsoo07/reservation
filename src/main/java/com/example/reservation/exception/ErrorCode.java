@@ -29,6 +29,7 @@ public enum ErrorCode {
     // 예약 관련
     NOT_FOUND_RESERVATION("예약 정보가 없습니다."),
     UNMATCH_RESERVATION_USER("해당 사용자의 예약이 아닙니다."),
+    CANNOT_RESERVE_PAST_DATE("예약 시간이 현재 시간보다 과거입니다."),
     ALREADY_RESERVED_TIME("이미 예약이 된 시간입니다. 다른 시간을 선택해주세요."),
     NOT_APPROVED_RESERVATION("승인된 예약이 아닙니다."),
     UNMATCH_RESERVED_INFORMATION("예약 정보 불일치"),

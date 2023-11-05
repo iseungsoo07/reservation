@@ -19,7 +19,7 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
     Page<Store> findAllByOrderByName(Pageable pageable);
 
-    Optional<Store> findByOwner(String owner);
+    List<Store> findByOwner(String owner);
 
     Page<Store> findAllByOrderByRatingDesc(Pageable pageable);
 

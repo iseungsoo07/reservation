@@ -3,11 +3,11 @@ POST http://localhost:8080/user/signup
 Content-Type: application/json
 
 {
-    "userId": "admin",
+    "userId": "user",
     "password": "8888",
-    "name": "관리자",
+    "name": "사용자",
     "phone": "010-8888-8888",
-    "memberType": "ROLE_PARTNER"
+    "memberType": "ROLE_USER"
 }
 
 ### signin
@@ -15,10 +15,10 @@ POST http://localhost:8080/user/signin
 Content-Type: application/json
 
 {
-    "userId": "admin",
-    "password": "8888"
+    "userId": "melon",
+    "password": "4444"
 }
 
 ### delete member
-DELETE http://localhost:8080/user/13
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsIm1lbWJlclR5cGUiOiJST0xFX1BBUlRORVIiLCJpYXQiOjE2OTkwODE2NzQsImV4cCI6MTY5OTA4NTI3NH0.BkvJjpeQoWnrTtBrEWMVW3XKIudGJyA1pdVVABZTKEwsynVPy2Q_UOVftPqfiPjhnzydYDUV0rVBm4gIqBus6g
+DELETE http://localhost:8080/user/14
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwibWVtYmVyVHlwZSI6IlJPTEVfVVNFUiIsImlhdCI6MTY5OTE2Mjg5NywiZXhwIjoxNjk5MTY2NDk3fQ.WqKi2hnYnspDQs4M5HL2JwLzrb347tHfit8thj2btTFUDq6K4eI6xHJugn4-ruETj51ivufa7P0oLykUPgRbUA

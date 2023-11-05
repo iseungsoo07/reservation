@@ -51,6 +51,9 @@ public class ReservationServiceImpl implements ReservationService {
             throw new ReservationException(ONLY_FOR_USER);
         }
 
+        // 예약 시간이 현재시간 이전이라면 예외 발생
+        checkReservationDate(reservationRequest);
+
         Member member = getMember(userId);
         Store store = getStore(id);
 
@@ -81,7 +84,6 @@ public class ReservationServiceImpl implements ReservationService {
                 .build();
     }
 
-
     /**
      * 예약 수정
      * 정책상 예약시간 30분전 이후부터는 예약 변경이 불가능 하도록 한다.
@@ -97,6 +99,8 @@ public class ReservationServiceImpl implements ReservationService {
         if (!Objects.equals(reservation.getMember().getUserId(), userId)) {
             throw new ReservationException(UNMATCH_RESERVATION_USER);
         }
+
+        checkReservationDate(reservationRequest);
 
         LocalDateTime now = LocalDateTime.now();
 
@@ -299,4 +303,9 @@ public class ReservationServiceImpl implements ReservationService {
                 .orElseThrow(() -> new ReservationException(NOT_FOUND_STORE));
     }
 
+    private static void checkReservationDate(ReservationRequest reservationRequest) {
+        if (reservationRequest.getReservationDate().isBefore(LocalDateTime.now())) {
+            throw new ReservationException(CANNOT_RESERVE_PAST_DATE);
+        }
+    }
 }

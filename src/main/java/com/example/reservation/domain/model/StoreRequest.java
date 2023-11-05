@@ -24,9 +24,9 @@ public class StoreRequest {
     @NotBlank
     private String contact;
 
-    @NotBlank
+    @NotNull
     private LocalTime open;
 
-    @NotBlank
+    @NotNull
     private LocalTime close;
 }

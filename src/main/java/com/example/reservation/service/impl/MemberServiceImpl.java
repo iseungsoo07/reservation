@@ -19,7 +19,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 import static com.example.reservation.exception.ErrorCode.*;
 
@@ -95,10 +95,10 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
             throw new ReservationException(CANNOT_DELETE_OTHER_MEMBER);
         }
 
-        Optional<Store> optionalStore = storeRepository.findByOwner(member.getUserId());
+        List<Store> storeList = storeRepository.findByOwner(member.getUserId());
 
         // 매장이 존재하는 사용자는 탈퇴 불가 -> 예외 발생
-        if (optionalStore.isPresent()) {
+        if (!storeList.isEmpty()) {
             throw new ReservationException(MEMBER_HAS_STORE);
         }
 
